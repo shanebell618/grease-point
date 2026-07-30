@@ -62,3 +62,5 @@ storybook-static
 /.claude/skills
 /.windsurf/skills
 skills-lock.json
+
+*storybook.log
