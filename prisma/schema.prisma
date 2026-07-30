@@ -1,0 +1,82 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+enum EquipmentStatus {
+  ACTIVE
+  MAINTENANCE
+  RETIRED
+  OUT_OF_SERVICE
+}
+
+// SQLite has no native enum type, so Prisma stores EquipmentStatus as TEXT
+// and only enforces the constraint at the Prisma Client/TypeScript layer,
+// not via a DB CHECK constraint. Fine for this project's scope.
+model Equipment {
+  id            String          @id @default(cuid())
+  name          String
+  serialNumber  String          @unique
+  vin           String?
+  status        EquipmentStatus @default(ACTIVE)
+  // Money as Float (not Decimal — unsupported on SQLite/Prisma) is a
+  // pragmatic choice here; real money handling would use integer cents
+  // or Postgres Decimal.
+  purchasePrice Float?
+  engineHours   Float?
+  // Single hero-image URL for now; a multi-photo gallery + real upload
+  // pipeline is a documented breadcrumb, not built yet — see
+  // src/features/documents/README.md.
+  photoUrl      String?
+  notes         String?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+}
+
+// --- Breadcrumbs: future models, sketched but not implemented yet. -------
+// See TODO.md for the fuller narrative on when/how to build these out.
+//
+// model MaintenanceRecord {
+//   id            String    @id @default(cuid())
+//   equipmentId   String
+//   performedAt   DateTime
+//   description   String
+//   cost          Float?
+//   nextDueHours  Float?
+//   nextDueDate   DateTime?
+//   createdAt     DateTime  @default(now())
+// }
+//
+// model Part {
+//   id                String @id @default(cuid())
+//   sku               String @unique
+//   name              String
+//   quantityOnHand    Int
+//   reorderThreshold  Int
+//   unitCost          Float?
+// }
+//
+// model PartUsage {
+//   id                  String   @id @default(cuid())
+//   partId              String
+//   equipmentId         String
+//   maintenanceRecordId String?
+//   quantityUsed        Int
+//   usedAt              DateTime
+// }
+//
+// model Document {
+//   id          String   @id @default(cuid())
+//   equipmentId String
+//   title       String
+//   fileUrl     String
+//   category    String
+//   uploadedAt  DateTime @default(now())
+// }
