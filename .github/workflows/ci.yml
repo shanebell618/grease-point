@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  # Also set (redundantly but explicitly) per-step where Prisma needs it —
+  # without this, prisma generate/migrate/build all fail immediately, which
+  # is the single most common way this workflow breaks.
+  DATABASE_URL: "file:./dev.db"
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Prisma client
+        run: npx prisma generate
+
+      - name: Apply database migrations
+        run: npx prisma migrate deploy
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Check formatting
+        run: npm run format:check
+
+      - name: Unit and component tests
+        run: npm run test:unit
+
+      - name: Build
+        run: npm run build
+
+      # Slowest single step — better-sqlite3's native module compiles fresh
+      # here too, and Chromium is a large download. Both are expected.
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: End-to-end tests
+        run: npm run test:e2e
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
+
+      - name: Build Storybook
+        run: npm run build-storybook
+
+# Splitting this into parallel jobs (e.g. lint+unit, e2e, storybook) is a
+# natural later improvement once this single job gets slow.
