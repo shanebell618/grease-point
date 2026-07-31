@@ -18,7 +18,11 @@ const ReactQueryDevtools = dynamic(
   { ssr: false },
 );
 
-export function Providers({ children }: { children: React.ReactNode }) {
+interface ProvidersProps {
+  children: React.ReactNode;
+}
+
+export const Providers = ({ children }: ProvidersProps) => {
   const [queryClient] = useState(() => new QueryClient());
 
   return (
@@ -34,4 +38,4 @@ export function Providers({ children }: { children: React.ReactNode }) {
       </ThemeProvider>
     </AppRouterCacheProvider>
   );
-}
+};
