@@ -20,6 +20,7 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
+    "@hookform/resolvers": "^5.5.7",
     "@mui/icons-material": "^9.2.0",
     "@mui/material": "^9.2.0",
     "@mui/material-nextjs": "^9.1.1",
@@ -29,10 +30,17 @@
     "better-sqlite3": "^13.0.2",
     "next": "16.2.12",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "react-hook-form": "^7.83.0",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@chromatic-com/storybook": "^5.2.1",
     "@playwright/test": "^1.62.0",
+    "@storybook/addon-a11y": "^10.5.5",
+    "@storybook/addon-docs": "^10.5.5",
+    "@storybook/addon-mcp": "^0.7.0",
+    "@storybook/nextjs-vite": "^10.5.5",
     "@tanstack/react-query-devtools": "^5.101.4",
     "@testing-library/jest-dom": "^7.0.0",
     "@testing-library/react": "^16.3.2",
@@ -45,21 +53,13 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.12",
     "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-storybook": "^10.5.5",
     "jsdom": "^29.1.1",
     "prettier": "^3.9.6",
     "prisma": "^7.9.1",
-    "typescript": "^5",
-    "vitest": "^4.1.10",
     "storybook": "^10.5.5",
-    "@storybook/nextjs-vite": "^10.5.5",
-    "@chromatic-com/storybook": "^5.2.1",
-    "@storybook/addon-vitest": "^10.5.5",
-    "@storybook/addon-a11y": "^10.5.5",
-    "@storybook/addon-docs": "^10.5.5",
-    "@storybook/addon-mcp": "^0.7.0",
+    "typescript": "^5",
     "vite": "^8.2.0",
-    "eslint-plugin-storybook": "^10.5.5",
-    "@vitest/browser-playwright": "4.1.10",
-    "playwright": "^1.62.1"
+    "vitest": "^4.1.10"
   }
 }
