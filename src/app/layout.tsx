@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
+import { AppNavBar } from "@/components/AppNavBar/AppNavBar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,16 +19,21 @@ export const metadata: Metadata = {
   description: "Heavy equipment tracking: maintenance, repairs, and inventory.",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
+interface RootLayoutProps {
   children: React.ReactNode;
-}>) {
+}
+
+const RootLayout = ({ children }: RootLayoutProps) => {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          <AppNavBar />
+          {children}
+        </Providers>
       </body>
     </html>
   );
-}
+};
+
+export default RootLayout;
