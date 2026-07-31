@@ -22,6 +22,9 @@ interface ProvidersProps {
   children: React.ReactNode;
 }
 
+// TODO(toasts breadcrumb): add a global ToastProvider here (MUI Snackbar +
+// Alert) so mutations across features can surface success/error toasts
+// instead of each feature building its own.
 export const Providers = ({ children }: ProvidersProps) => {
   const [queryClient] = useState(() => new QueryClient());
 
