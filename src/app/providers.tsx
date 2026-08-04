@@ -6,7 +6,7 @@ import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { theme } from "@/lib/theme";
+import { theme } from "@/styles/theme";
 
 // Devtools are dev-only UI; dynamically imported (client-only) so the
 // package never ends up in the production bundle.

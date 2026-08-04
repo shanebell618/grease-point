@@ -1,4 +1,4 @@
-import { EquipmentDetailPage } from "@/features/equipment/EquipmentDetailPage";
+import { EquipmentPageView } from "@/verticals/equipment/pages/EquipmentPageView";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -6,7 +6,7 @@ interface PageProps {
 
 const Page = async ({ params }: PageProps) => {
   const { id } = await params;
-  return <EquipmentDetailPage id={id} />;
+  return <EquipmentPageView id={id} />;
 };
 
 export default Page;

@@ -6,6 +6,13 @@ generator client {
   output   = "../src/generated/prisma"
 }
 
+// Feeds the in-memory mock Prisma client used by dataAccess/useCases tests
+// (see src/lib/prisma/mockClient.ts) — no real database involved in tests.
+generator dmmf {
+  provider = "prisma-mock"
+  output   = "../src/generated/dmmf.ts"
+}
+
 datasource db {
   provider = "sqlite"
 }

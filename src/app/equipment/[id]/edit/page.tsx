@@ -1,4 +1,4 @@
-import { EquipmentEditPage } from "@/features/equipment/EquipmentEditPage";
+import { EditEquipmentPageView } from "@/verticals/equipment/pages/EditEquipmentPageView";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -6,7 +6,7 @@ interface PageProps {
 
 const Page = async ({ params }: PageProps) => {
   const { id } = await params;
-  return <EquipmentEditPage id={id} />;
+  return <EditEquipmentPageView id={id} />;
 };
 
 export default Page;

@@ -2,7 +2,7 @@ import type { Preview } from "@storybook/nextjs-vite";
 import React from "react";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import { theme } from "../src/lib/theme";
+import { theme } from "../src/styles/theme";
 
 const preview: Preview = {
   decorators: [

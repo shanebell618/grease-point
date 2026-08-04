@@ -7,9 +7,10 @@ on:
     branches: [main]
 
 env:
-  # Also set (redundantly but explicitly) per-step where Prisma needs it —
-  # without this, prisma generate/migrate/build all fail immediately, which
-  # is the single most common way this workflow breaks.
+  # prisma generate just needs a syntactically valid value here, not a
+  # reachable database — dataAccess/useCases tests run against an in-memory
+  # mock (see src/lib/prisma/mockClient.ts), and the e2e step migrates its
+  # own dedicated prisma/test.db via the pretest:e2e script.
   DATABASE_URL: "file:./dev.db"
 
 jobs:
@@ -28,9 +29,6 @@ jobs:
 
       - name: Generate Prisma client
         run: npx prisma generate
-
-      - name: Apply database migrations
-        run: npx prisma migrate deploy
 
       - name: Lint
         run: npm run lint
