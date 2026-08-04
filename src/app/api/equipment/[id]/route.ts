@@ -1,13 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
-import { equipmentInputSchema } from "@/features/equipment/schema";
+import { ZodError } from "zod";
+import { getEquipmentByIdUseCase } from "@/server/useCases/equipment/getEquipmentByIdUseCase";
+import { updateEquipmentAction } from "@/server/actions/equipment/updateEquipmentAction";
+import { deleteEquipmentAction } from "@/server/actions/equipment/deleteEquipmentAction";
+import { NotFoundError } from "@/server/useCases/errors";
 
 export async function GET(
   _request: NextRequest,
   ctx: RouteContext<"/api/equipment/[id]">,
 ) {
   const { id } = await ctx.params;
-  const equipment = await prisma.equipment.findUnique({ where: { id } });
+  const equipment = await getEquipmentByIdUseCase(id);
 
   if (!equipment) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
@@ -22,30 +25,18 @@ export async function PATCH(
 ) {
   const { id } = await ctx.params;
   const body = await request.json();
-  const parsed = equipmentInputSchema.partial().safeParse(body);
-
-  if (!parsed.success) {
-    return NextResponse.json(
-      { error: parsed.error.flatten() },
-      { status: 400 },
-    );
-  }
-
-  const { vin, photoUrl, notes, ...rest } = parsed.data;
 
   try {
-    const equipment = await prisma.equipment.update({
-      where: { id },
-      data: {
-        ...rest,
-        ...(vin !== undefined && { vin: vin || null }),
-        ...(photoUrl !== undefined && { photoUrl: photoUrl || null }),
-        ...(notes !== undefined && { notes: notes || null }),
-      },
-    });
+    const equipment = await updateEquipmentAction(id, body);
     return NextResponse.json(equipment);
-  } catch {
-    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  } catch (error) {
+    if (error instanceof ZodError) {
+      return NextResponse.json({ error: error.flatten() }, { status: 400 });
+    }
+    if (error instanceof NotFoundError) {
+      return NextResponse.json({ error: "Not found" }, { status: 404 });
+    }
+    throw error;
   }
 }
 
@@ -56,9 +47,12 @@ export async function DELETE(
   const { id } = await ctx.params;
 
   try {
-    await prisma.equipment.delete({ where: { id } });
+    await deleteEquipmentAction(id);
     return new NextResponse(null, { status: 204 });
-  } catch {
-    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  } catch (error) {
+    if (error instanceof NotFoundError) {
+      return NextResponse.json({ error: "Not found" }, { status: 404 });
+    }
+    throw error;
   }
 }

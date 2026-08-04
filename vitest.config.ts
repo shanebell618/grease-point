@@ -13,8 +13,17 @@ export default defineConfig({
   },
   test: {
     environment: "jsdom",
-    setupFiles: ["./tests/setup.ts"],
-    include: ["tests/unit/**/*.test.ts", "tests/component/**/*.test.tsx"],
-    exclude: ["tests/e2e/**", "node_modules/**"],
+    setupFiles: ["./src/test/setup.ts"],
+    // dataAccess/useCases tests run against an in-memory mock Prisma client
+    // (see src/lib/prisma/mockClient.ts) instead of a real database — each
+    // test file gets its own isolated in-memory state, so there's no shared
+    // file to race across parallel workers the way a real SQLite file would.
+    env: {
+      PRISMA_USE_MOCK: "true",
+    },
+    // Tests live co-located in __test__/ folders next to the code they
+    // test (see src/verticals/equipment/__test__ for the pattern);
+    // tests/e2e is Playwright's, a separate runner entirely.
+    include: ["src/**/__test__/**/*.test.{ts,tsx}"],
   },
 });

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Container from "@mui/material/Container";
-import { FeaturePlaceholder } from "@/components/FeaturePlaceholder/FeaturePlaceholder";
+import { FeaturePlaceholder } from "@/common/components/FeaturePlaceholder";
 
 export const metadata: Metadata = { title: "Maintenance | Grease Point" };
 
@@ -16,7 +16,7 @@ const Page = () => (
         "Completed work",
         "Due dates",
       ]}
-      docsPath="src/features/maintenance/README.md"
+      docsPath="src/verticals/maintenance/README.md"
     />
   </Container>
 );

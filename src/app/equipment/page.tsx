@@ -1,8 +1,8 @@
+import { EquipmentListPageView } from "@/verticals/equipment/pages/EquipmentListPageView";
 import type { Metadata } from "next";
-import { EquipmentListPage } from "@/features/equipment/EquipmentListPage";
 
 export const metadata: Metadata = { title: "Equipment | Grease Point" };
 
-const Page = () => <EquipmentListPage />;
+const Page = () => <EquipmentListPageView />;
 
 export default Page;

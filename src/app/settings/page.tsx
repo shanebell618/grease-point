@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Container from "@mui/material/Container";
-import { FeaturePlaceholder } from "@/components/FeaturePlaceholder/FeaturePlaceholder";
+import { FeaturePlaceholder } from "@/common/components/FeaturePlaceholder";
 
 export const metadata: Metadata = { title: "Settings | Grease Point" };
 
