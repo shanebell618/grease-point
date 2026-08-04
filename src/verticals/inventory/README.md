@@ -12,17 +12,23 @@ to the equipment (and optionally the maintenance record) it was used on.
 
 ## Suggested first slice
 
-Same shape as Equipment/Maintenance:
+Same shape as Equipment/Maintenance — see
+[`readme/dev/architecture.md`](../../../readme/dev/architecture.md) for the
+full layering explanation:
 
+- Backend: `src/server/schemas/inventory/`, `dataAccess/PartDao.ts`,
+  `useCases/inventory/`, `actions/inventory/` (mutations only), each with
+  a co-located `__test__/`.
 - `src/app/api/parts/route.ts` + `[id]/route.ts`.
-- `src/verticals/inventory/{schema,types,api,queryKeys,hooks}.ts`.
-- `src/verticals/inventory/components/PartsTable.tsx` + a `SearchBox`
-  component (`src/common/components/SearchBox/`) — both named explicitly in the
-  original outline as components worth a Storybook page.
+- `src/verticals/inventory/{types,api,queryKeys,hooks}.ts`.
+- `src/verticals/inventory/components/PartsTable/index.tsx` + a `SearchBox`
+  component (`src/common/components/SearchBox/index.tsx`) — both named
+  explicitly in the original outline as components worth a Storybook page.
 - Filtering/sorting by category and low-stock (`quantityOnHand <=
 reorderThreshold`) is the interesting pure-function logic — good Vitest
   target, same pattern as `filterEquipmentByStatus`.
-- `src/app/inventory/page.tsx` replaces the current `FeaturePlaceholder` stub.
+- `src/verticals/inventory/pages/InventoryListPageView/index.tsx` replaces
+  the current `FeaturePlaceholder` stub rendered by `src/app/inventory/page.tsx`.
 
 ## Later
 

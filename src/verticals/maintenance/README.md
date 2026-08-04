@@ -17,26 +17,45 @@ work / due dates.
 
 ## Suggested first slice
 
-Mirror the Equipment flow file-for-file:
+Mirror the Equipment flow file-for-file — see
+[`readme/dev/architecture.md`](../../../readme/dev/architecture.md) for the
+full explanation of this layering if any of it is unfamiliar:
 
-- `src/app/api/maintenance/route.ts` + `[id]/route.ts` — same GET/POST/PATCH/DELETE
-  shape as `src/app/api/equipment/route.ts`, but scope list queries with
-  `?equipmentId=` so a machine's detail page can show its own history.
-- `src/verticals/maintenance/schema.ts`, `types.ts`, `api.ts`, `queryKeys.ts`, `hooks.ts`
-  — copy `src/verticals/equipment/`'s versions and adjust fields.
-- `src/verticals/maintenance/components/MaintenanceTable.tsx` — the "Maintenance
-  Table" reusable component from the original outline; a Storybook story for
-  it is an easy win once it exists.
-- A `MaintenanceHistory` section embedded in `EquipmentDetail.tsx`
-  (`src/verticals/equipment/components/EquipmentDetail.tsx`) is a natural
-  integration point — that's how "recent repairs" ends up on the equipment
-  detail page and eventually the dashboard.
-- `src/app/maintenance/page.tsx` replaces the current `FeaturePlaceholder`
-  stub with a real `MaintenanceListPage`.
+**Backend** (`src/server/`):
+
+- `schemas/maintenance/createMaintenanceInputSchema.ts` — zod schema
+- `dataAccess/MaintenanceDao.ts` — raw Prisma queries only
+- `useCases/maintenance/{createMaintenanceUseCase,updateMaintenanceUseCase,deleteMaintenanceUseCase,findAllMaintenanceUseCase,getMaintenanceByIdUseCase}.ts`
+- `actions/maintenance/{createMaintenanceAction,updateMaintenanceAction,deleteMaintenanceAction}.ts` —
+  reads (`findAll`/`getById`) don't get actions, same as Equipment; they're
+  called directly from the route.
+- Each of the above gets a co-located `__test__/` — see
+  [`readme/dev/running-tests.md`](../../../readme/dev/running-tests.md).
+
+**API routes** (`src/app/api/maintenance/route.ts` + `[id]/route.ts`) —
+same GET/POST/PATCH/DELETE shape as `src/app/api/equipment/route.ts`, but
+scope list queries with `?equipmentId=` so a machine's detail page can
+show its own history.
+
+**Frontend** (`src/verticals/maintenance/`):
+
+- `api.ts`, `types.ts`, `queryKeys.ts`, `hooks.ts` — copy
+  `src/verticals/equipment/`'s versions and adjust fields.
+- `components/MaintenanceTable/index.tsx` — the "Maintenance Table"
+  reusable component from the original outline; a co-located
+  `MaintenanceTable.stories.tsx` is an easy win once it exists.
+- `pages/MaintenanceListPageView/index.tsx` — replaces the current
+  `FeaturePlaceholder` stub rendered by `src/app/maintenance/page.tsx`.
+
+A `MaintenanceHistory` section embedded in
+`src/verticals/equipment/pages/EquipmentPageView/components/EquipmentDetail/`
+is a natural integration point — that's how "recent repairs" ends up on
+the equipment detail page and eventually the dashboard.
 
 ## Due-date logic
 
 `nextDueDate`/`nextDueHours` calculations (e.g. "due in 3 days" / "due in
-120 hours") are the interesting business logic here — good Vitest unit-test
-material, same spirit as `sortEquipmentByName`/`filterEquipmentByStatus` in
-`src/verticals/equipment/utils.ts`.
+120 hours") are the interesting business logic here — good candidates for
+the `useCase` layer, and good Vitest test material, same spirit as
+`sortEquipmentByName`/`filterEquipmentByStatus` in
+`src/verticals/equipment/utils/`.

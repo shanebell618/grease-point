@@ -22,9 +22,14 @@ that's a single string URL; a real multi-photo gallery would become
   handling `multipart/form-data`, writing to local disk (`public/uploads/` —
   fine for a portfolio demo) or an object store, returning the URL to store
   on the `Document` row.
-- `src/verticals/documents/components/DocumentList.tsx` — group by `category`
-  (manuals / receipts / other) to match the outline.
-- `src/app/documents/page.tsx` replaces the current `FeaturePlaceholder` stub.
+- Backend follows the usual layering (see
+  [`readme/dev/architecture.md`](../../../readme/dev/architecture.md)):
+  `server/schemas/documents/`, `dataAccess/DocumentDao.ts`,
+  `useCases/documents/`, `actions/documents/` — each with a co-located `__test__/`.
+- `src/verticals/documents/components/DocumentList/index.tsx` — group by
+  `category` (manuals / receipts / other) to match the outline.
+- `src/verticals/documents/pages/DocumentsListPageView/index.tsx` replaces
+  the current `FeaturePlaceholder` stub rendered by `src/app/documents/page.tsx`.
 
 ## Later
 
