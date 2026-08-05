@@ -54,9 +54,22 @@ of:
 
 ## Git workflow
 
-This repo uses feature branches merged into `main` with `--no-ff`
-(`git merge --no-ff <branch>`), so the graph shows real branch/merge
-structure even without GitHub pull requests
-(`git log --oneline --graph --all` to see it). Commit messages describe the
-_change_, not the file — `Add equipment list and detail pages`, not
-`update files`.
+This repo uses [gitflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
+(managed through Sourcetree). Two long-lived branches:
+
+- `main` — released code only.
+- `develop` — the integration branch. Branch new work off this, not `main`.
+
+Everything else is a short-lived branch with a prefix describing its
+purpose, branched off `develop` and merged back into it (`--no-ff`, so the
+graph shows real branch/merge structure — `git log --oneline --graph --all`
+to see it):
+
+- `feature/<name>` — new work, e.g. `feature/maintenance-flow`.
+- `release/<version>` — stabilizing a set of features before it goes to
+  `main`.
+- `hotfix/<name>` — an urgent fix branched off `main` instead of `develop`,
+  merged into both.
+
+Commit messages describe the _change_, not the file — `Add equipment list
+and detail pages`, not `update files`.
