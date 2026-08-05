@@ -1,14 +1,14 @@
 import { describe, expect, it } from "vitest";
-import { equipmentFactory } from "@/test/factories/equipmentFactory";
-import { NotFoundError } from "@/server/useCases/errors";
 
+import { NotFoundError } from "@/server/useCases/errors";
+import { equipmentFactory } from "@/test/factories/equipmentFactory";
 import { updateEquipmentUseCase } from "../updateEquipmentUseCase";
 
 describe("updateEquipmentUseCase", () => {
   it("updates only the provided fields", async () => {
     const equipment = await equipmentFactory.create({
       status: "ACTIVE",
-      engineHours: 10,
+      operatingHours: 10,
     });
 
     const result = await updateEquipmentUseCase(equipment.id, {
@@ -16,7 +16,7 @@ describe("updateEquipmentUseCase", () => {
     });
 
     expect(result.status).toBe("MAINTENANCE");
-    expect(result.engineHours).toBe(10);
+    expect(result.operatingHours).toBe(10);
   });
 
   it("converts empty optional strings to null", async () => {

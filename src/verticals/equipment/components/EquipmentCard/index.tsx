@@ -5,13 +5,10 @@ import type { Equipment } from "@/verticals/equipment/types";
 import Stack from "@mui/material/Stack";
 import { StatusBadge } from "@/common/components/StatusBadge";
 import Typography from "@mui/material/Typography";
-import { formatEngineHours } from "@/verticals/equipment/utils";
+import { formatOperatingHours } from "@/verticals/equipment/utils";
 
 interface EquipmentCardProps {
-  equipment: Pick<
-    Equipment,
-    "name" | "serialNumber" | "status" | "engineHours"
-  >;
+  equipment: Pick<Equipment, "name" | "vin" | "status" | "operatingHours">;
   href?: string;
 }
 
@@ -29,10 +26,10 @@ export const EquipmentCard = ({ equipment, href }: EquipmentCardProps) => {
         <StatusBadge status={equipment.status} />
       </Stack>
       <Typography variant="body2" color="text.secondary">
-        S/N {equipment.serialNumber}
+        VIN {equipment.vin}
       </Typography>
       <Typography variant="body2" color="text.secondary">
-        {formatEngineHours(equipment.engineHours)}
+        {formatOperatingHours(equipment.operatingHours)}
       </Typography>
     </CardContent>
   );

@@ -6,8 +6,8 @@ describe("EquipmentDao.create", () => {
   it("persists a new equipment row", async () => {
     const result = await EquipmentDao.create({
       name: "CAT 320 Excavator",
-      serialNumber: "CAT0320XJDR12345",
       status: "ACTIVE",
+      vin: "CAT0320XJDR12345",
     });
 
     expect(result.id).toBeDefined();
@@ -20,7 +20,7 @@ describe("EquipmentDao.create", () => {
   it("defaults status to ACTIVE when omitted", async () => {
     const result = await EquipmentDao.create({
       name: "Bobcat S650",
-      serialNumber: "BC-S650-0042",
+      vin: "BC-S650-0042",
     });
 
     expect(result.status).toBe("ACTIVE");

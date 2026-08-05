@@ -1,17 +1,18 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import Alert from "@mui/material/Alert";
-import Box from "@mui/material/Box";
-import CircularProgress from "@mui/material/CircularProgress";
-import Container from "@mui/material/Container";
-import Typography from "@mui/material/Typography";
 import {
   useEquipmentQuery,
   useUpdateEquipmentMutation,
 } from "@/verticals/equipment/hooks";
-import { EquipmentForm } from "@/verticals/equipment/components/EquipmentForm";
+
+import Alert from "@mui/material/Alert";
+import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
+import Container from "@mui/material/Container";
 import type { CreateEquipmentInput } from "@/server/schemas/equipment/createEquipmentInputSchema";
+import { EquipmentForm } from "@/verticals/equipment/components/EquipmentForm";
+import Typography from "@mui/material/Typography";
+import { useRouter } from "next/navigation";
 
 interface EditEquipmentPageViewProps {
   id: string;
@@ -54,11 +55,10 @@ export const EditEquipmentPageView = ({ id }: EditEquipmentPageViewProps) => {
         <EquipmentForm
           defaultValues={{
             name: data.name,
-            serialNumber: data.serialNumber,
             vin: data.vin ?? "",
             status: data.status,
             purchasePrice: data.purchasePrice,
-            engineHours: data.engineHours,
+            operatingHours: data.operatingHours,
             photoUrl: data.photoUrl ?? "",
             notes: data.notes ?? "",
           }}

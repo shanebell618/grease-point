@@ -15,7 +15,11 @@
     "pretest:e2e": "DATABASE_URL=\"file:./prisma/test.db\" npx prisma migrate deploy",
     "test:e2e": "playwright test",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "dev:reset": "npm install && rm -rf .next && npm run dev:db:reset",
+    "dev:db:reset": "prisma migrate reset --force && npm run dev:db:seed",
+    "dev:db:seed": "prisma db seed",
+    "health:check": "./scripts/health-check.sh"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -59,6 +63,7 @@
     "prisma": "^7.9.1",
     "prisma-mock": "^1.1.0",
     "storybook": "^10.5.5",
+    "tsx": "^4.23.8",
     "typescript": "^5",
     "vite": "^8.2.0",
     "vitest": "^4.1.10"

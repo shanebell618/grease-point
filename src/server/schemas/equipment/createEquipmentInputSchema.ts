@@ -11,11 +11,10 @@ export const EQUIPMENT_STATUSES = [
 // and the create/edit form's client-side validation.
 export const createEquipmentInputSchema = z.object({
   name: z.string().trim().min(1, "Name is required"),
-  serialNumber: z.string().trim().min(1, "Serial number is required"),
   vin: z.string().trim().optional().or(z.literal("")),
   status: z.enum(EQUIPMENT_STATUSES),
   purchasePrice: z.coerce.number().nonnegative().optional().nullable(),
-  engineHours: z.coerce.number().nonnegative().optional().nullable(),
+  operatingHours: z.coerce.number().nonnegative().optional().nullable(),
   photoUrl: z.string().trim().optional().or(z.literal("")),
   notes: z.string().trim().optional().or(z.literal("")),
 });

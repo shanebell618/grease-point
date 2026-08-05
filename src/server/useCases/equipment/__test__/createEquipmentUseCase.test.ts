@@ -6,13 +6,13 @@ describe("createEquipmentUseCase", () => {
   it("persists equipment with the given attributes", async () => {
     const result = await createEquipmentUseCase({
       name: "CAT 320 Excavator",
-      serialNumber: "CAT0320XJDR12345",
+      vin: "CAT0320XJDR12345",
       status: "ACTIVE",
     });
 
     expect(result).toMatchObject({
       name: "CAT 320 Excavator",
-      serialNumber: "CAT0320XJDR12345",
+      vin: "CAT0320XJDR12345",
       status: "ACTIVE",
     });
   });
@@ -20,9 +20,8 @@ describe("createEquipmentUseCase", () => {
   it("stores empty optional strings as null", async () => {
     const result = await createEquipmentUseCase({
       name: "Bobcat S650",
-      serialNumber: "BC-S650-0042",
-      status: "ACTIVE",
       vin: "",
+      status: "ACTIVE",
       photoUrl: "",
       notes: "",
     });

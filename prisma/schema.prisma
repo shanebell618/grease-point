@@ -30,14 +30,13 @@ enum EquipmentStatus {
 model Equipment {
   id            String          @id @default(cuid())
   name          String
-  serialNumber  String          @unique
   vin           String?
   status        EquipmentStatus @default(ACTIVE)
   // Money as Float (not Decimal — unsupported on SQLite/Prisma) is a
   // pragmatic choice here; real money handling would use integer cents
   // or Postgres Decimal.
   purchasePrice Float?
-  engineHours   Float?
+  operatingHours   Float?
   // Single hero-image URL for now; a multi-photo gallery + real upload
   // pipeline is a documented breadcrumb, not built yet — see
   // src/features/documents/README.md.

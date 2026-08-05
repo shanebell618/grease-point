@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   filterEquipmentByStatus,
-  formatEngineHours,
+  formatOperatingHours,
   sortEquipmentByName,
 } from "@/verticals/equipment/utils";
 
@@ -55,17 +55,17 @@ describe("filterEquipmentByStatus", () => {
   });
 });
 
-describe("formatEngineHours", () => {
+describe("formatOperatingHours", () => {
   it("formats a number with the hrs suffix", () => {
-    expect(formatEngineHours(4231.5)).toBe("4,231.5 hrs");
+    expect(formatOperatingHours(4231.5)).toBe("4,231.5 hrs");
   });
 
   it("returns an em dash for null or undefined", () => {
-    expect(formatEngineHours(null)).toBe("—");
-    expect(formatEngineHours(undefined)).toBe("—");
+    expect(formatOperatingHours(null)).toBe("—");
+    expect(formatOperatingHours(undefined)).toBe("—");
   });
 
   it("rounds to at most one decimal place", () => {
-    expect(formatEngineHours(100.256)).toBe("100.3 hrs");
+    expect(formatOperatingHours(100.256)).toBe("100.3 hrs");
   });
 });

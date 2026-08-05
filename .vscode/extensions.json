@@ -1,3 +1,7 @@
 {
-  "recommendations": ["dineug.vuerd-vscode", "prisma.prisma"]
+  "recommendations": [
+    "dineug.vuerd-vscode",
+    "prisma.prisma",
+    "esbenp.prettier-vscode"
+  ]
 }
