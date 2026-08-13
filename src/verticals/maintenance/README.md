@@ -25,7 +25,7 @@ full explanation of this layering if any of it is unfamiliar:
 
 - `schemas/maintenance/createMaintenanceInputSchema.ts` — zod schema
 - `dataAccess/MaintenanceDao.ts` — raw Prisma queries only
-- `useCases/maintenance/{createMaintenanceUseCase,updateMaintenanceUseCase,deleteMaintenanceUseCase,findAllMaintenanceUseCase,getMaintenanceByIdUseCase}.ts`
+- `useCases/maintenance/{createMaintenanceUseCase,updateMaintenanceUseCase,deleteMaintenanceUseCase,getAllMaintenanceUseCase,getAllMaintenanceByEquipmentIdUseCase,getMaintenanceByIdUseCase}.ts`
 - `actions/maintenance/{createMaintenanceAction,updateMaintenanceAction,deleteMaintenanceAction}.ts` —
   reads (`findAll`/`getById`) don't get actions, same as Equipment; they're
   called directly from the route.

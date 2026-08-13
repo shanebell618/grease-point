@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { ZodError } from "zod";
 import { EQUIPMENT_STATUSES } from "@/server/schemas/equipment/createEquipmentInputSchema";
 import type { EquipmentStatus } from "@/generated/prisma/enums";
-import { findAllEquipmentUseCase } from "@/server/useCases/equipment/findAllEquipmentUseCase";
+import { getAllEquipmentUseCase } from "@/server/useCases/equipment/getAllEquipmentUseCase";
+import { getAllEquipmentByStatusUseCase } from "@/server/useCases/equipment/getAllEquipmentByStatusUseCase";
 import { createEquipmentAction } from "@/server/actions/equipment/createEquipmentAction";
 
 function isEquipmentStatus(value: string): value is EquipmentStatus {
@@ -13,7 +14,9 @@ export async function GET(request: NextRequest) {
   const status = request.nextUrl.searchParams.get("status");
   const validStatus = status && isEquipmentStatus(status) ? status : undefined;
 
-  const equipment = await findAllEquipmentUseCase(validStatus);
+  const equipment = validStatus
+    ? await getAllEquipmentByStatusUseCase(validStatus)
+    : await getAllEquipmentUseCase();
 
   return NextResponse.json(equipment);
 }
