@@ -4,7 +4,7 @@ import { DeleteEquipmentButton } from "../DeleteEquipmentButton";
 import type { Equipment } from "@/verticals/equipment/types";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
-import { StatusBadge } from "@/common/components/StatusBadge";
+import { EquipmentStatusBadge } from "@/verticals/equipment/components/EquipmentStatusBadge";
 import Typography from "@mui/material/Typography";
 import { formatCurrency } from "@/common/utils/formatters/formatCurrency";
 import { formatDate } from "@/common/utils/formatters/formatDate";
@@ -41,7 +41,7 @@ export const EquipmentDetail = ({ equipment }: EquipmentDetailProps) => {
             {equipment.name}
           </Typography>
           <Box sx={{ mt: 1 }}>
-            <StatusBadge status={equipment.status} />
+            <EquipmentStatusBadge status={equipment.status} />
           </Box>
         </Box>
         <Stack direction="row" spacing={1}>
