@@ -8,7 +8,7 @@ import { formatDate } from "@/common/utils/formatters/formatDate";
 
 interface MaintenanceCardProps {
   maintenance: Pick<Maintenance, "description" | "status" | "performedAt">;
-  equipmentName: string;
+  equipmentName?: string;
 }
 
 export const MaintenanceCard = ({

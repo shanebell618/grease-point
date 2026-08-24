@@ -2,9 +2,11 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { DeleteEquipmentButton } from "../DeleteEquipmentButton";
 import type { Equipment } from "@/verticals/equipment/types";
-import Grid from "@mui/material/Grid";
-import Stack from "@mui/material/Stack";
 import { EquipmentStatusBadge } from "@/verticals/equipment/components/EquipmentStatusBadge";
+import Grid from "@mui/material/Grid";
+import { LogMaintenanceButton } from "../LogMaintenanceButton";
+import { MaintenanceHistoryTable } from "../MaintenanceHistoryTable";
+import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { formatCurrency } from "@/common/utils/formatters/formatCurrency";
 import { formatDate } from "@/common/utils/formatters/formatDate";
@@ -45,6 +47,7 @@ export const EquipmentDetail = ({ equipment }: EquipmentDetailProps) => {
           </Box>
         </Box>
         <Stack direction="row" spacing={1}>
+          <LogMaintenanceButton equipmentId={equipment.id} />
           <Button href={`/equipment/${equipment.id}/edit`} variant="outlined">
             Edit
           </Button>
@@ -86,6 +89,12 @@ export const EquipmentDetail = ({ equipment }: EquipmentDetailProps) => {
           </Typography>
         </Box>
       )}
+      <Box>
+        <Typography variant="h6" component="h2" sx={{ mb: 2 }}>
+          Maintenance history
+        </Typography>
+        <MaintenanceHistoryTable equipmentId={equipment.id} />
+      </Box>
     </Stack>
   );
 };
