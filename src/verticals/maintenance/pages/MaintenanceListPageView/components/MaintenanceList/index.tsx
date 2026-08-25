@@ -6,15 +6,16 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Grid from "@mui/material/Grid";
 import { MaintenanceCard } from "@/verticals/maintenance/components/MaintenanceCard";
 import Typography from "@mui/material/Typography";
+import { sortMaintenanceByPriority } from "@/verticals/maintenance/utils";
+import { useActiveOrRecentlyCompletedMaintenanceQuery } from "@/verticals/maintenance/hooks";
 import { useEquipmentListQuery } from "@/verticals/equipment/hooks";
-import { useMaintenanceListQuery } from "@/verticals/maintenance/hooks";
 
 export const MaintenanceList = () => {
   const {
     data: maintenanceList,
     isPending: isMaintenancePending,
     isError: isMaintenanceError,
-  } = useMaintenanceListQuery();
+  } = useActiveOrRecentlyCompletedMaintenanceQuery();
   const { data: equipmentList, isPending: isEquipmentPending } =
     useEquipmentListQuery();
 
@@ -37,7 +38,8 @@ export const MaintenanceList = () => {
   if (maintenanceList.length === 0) {
     return (
       <Typography color="text.secondary" sx={{ py: 4 }}>
-        No maintenance records yet. Log your first service to get started.
+        Nothing active, scheduled, or recently completed. Log a service to get
+        started.
       </Typography>
     );
   }
@@ -48,10 +50,11 @@ export const MaintenanceList = () => {
 
   return (
     <Grid container spacing={2}>
-      {maintenanceList.map((maintenance) => (
-        <Grid key={maintenance.id} size={{ xs: 12, sm: 6, md: 4 }}>
+      {sortMaintenanceByPriority(maintenanceList).map((maintenance) => (
+        <Grid key={maintenance.id} size={{ xs: 12 }}>
           <MaintenanceCard
             maintenance={maintenance}
+            equipmentId={maintenance.equipmentId}
             equipmentName={
               equipmentNameById.get(maintenance.equipmentId) ??
               "Unknown equipment"

@@ -2,15 +2,19 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { ZodError } from "zod";
 import { createMaintenanceAction } from "@/server/actions/maintenance/createMaintenanceAction";
+import { getAllActiveOrRecentlyCompletedMaintenanceUseCase } from "@/server/useCases/maintenance/getAllActiveOrRecentlyCompletedMaintenanceUseCase";
 import { getAllMaintenanceByEquipmentIdUseCase } from "@/server/useCases/maintenance/getAllMaintenanceByEquipmentIdUseCase";
 import { getAllMaintenanceUseCase } from "@/server/useCases/maintenance/getAllMaintenanceUseCase";
 
 export async function GET(request: NextRequest) {
   const equipmentId = request.nextUrl.searchParams.get("equipmentId");
+  const recent = request.nextUrl.searchParams.get("recent") === "true";
 
   const maintenance = equipmentId
     ? await getAllMaintenanceByEquipmentIdUseCase(equipmentId)
-    : await getAllMaintenanceUseCase();
+    : recent
+      ? await getAllActiveOrRecentlyCompletedMaintenanceUseCase()
+      : await getAllMaintenanceUseCase();
 
   return NextResponse.json(maintenance);
 }

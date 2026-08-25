@@ -9,7 +9,7 @@ describe("createMaintenanceUseCase", () => {
 
     const result = await createMaintenanceUseCase({
       equipmentId: equipment.id,
-      performedAt: new Date("2026-01-15"),
+      serviceDate: new Date("2026-01-15"),
       description: "Replaced hydraulic hose",
       status: "COMPLETE",
     });
@@ -19,5 +19,6 @@ describe("createMaintenanceUseCase", () => {
       description: "Replaced hydraulic hose",
       status: "COMPLETE",
     });
+    expect(result.completedAt).not.toBeNull();
   });
 });

@@ -9,7 +9,7 @@ export const MAINTENANCE_STATUSES = [
 
 export const createMaintenanceInputSchema = z.object({
   equipmentId: z.string().trim().min(1, "Equipment is required"),
-  performedAt: z.coerce.date(),
+  serviceDate: z.coerce.date(),
   description: z.string().trim().min(1, "Description is required"),
   status: z.enum(MAINTENANCE_STATUSES),
   cost: z.coerce.number().nonnegative().optional().nullable(),

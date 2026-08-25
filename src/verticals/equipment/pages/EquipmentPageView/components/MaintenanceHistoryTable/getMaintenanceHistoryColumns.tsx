@@ -6,8 +6,8 @@ import { formatDate } from "@/common/utils/formatters/formatDate";
 
 export const getMaintenanceHistoryColumns = (): GridColDef<Maintenance>[] => [
   {
-    field: "performedAt",
-    headerName: "Performed",
+    field: "serviceDate",
+    headerName: "Service date",
     flex: 1,
     valueFormatter: (value: string) => formatDate(value),
   },
@@ -23,6 +23,12 @@ export const getMaintenanceHistoryColumns = (): GridColDef<Maintenance>[] => [
     renderCell: (params) => (
       <MaintenanceStatusBadge status={params.row.status} />
     ),
+  },
+  {
+    field: "completedAt",
+    headerName: "Completed",
+    flex: 1,
+    valueFormatter: (value: string | null) => formatDate(value),
   },
   {
     field: "cost",

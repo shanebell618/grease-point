@@ -1,8 +1,10 @@
-import { prisma } from "@/lib/prisma";
 import { createSampleEquipment } from "./seeds/sampleEquipment";
+import { createSampleMaintenance } from "./seeds/sampleMaintenance";
+import { prisma } from "@/lib/prisma";
 
 async function main() {
-  await createSampleEquipment();
+  const equipment = await createSampleEquipment();
+  await createSampleMaintenance(equipment);
 }
 
 main()

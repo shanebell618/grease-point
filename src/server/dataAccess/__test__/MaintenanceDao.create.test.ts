@@ -9,7 +9,7 @@ describe("MaintenanceDao.create", () => {
 
     const result = await MaintenanceDao.create({
       equipmentId: equipment.id,
-      performedAt: new Date("2026-01-15"),
+      serviceDate: new Date("2026-01-15"),
       description: "Replaced hydraulic hose",
       status: "COMPLETE",
     });
@@ -27,7 +27,7 @@ describe("MaintenanceDao.create", () => {
 
     const result = await MaintenanceDao.create({
       equipmentId: equipment.id,
-      performedAt: new Date("2026-02-01"),
+      serviceDate: new Date("2026-02-01"),
       description: "Oil change due",
     });
 

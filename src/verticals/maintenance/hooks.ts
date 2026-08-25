@@ -8,12 +8,20 @@ import {
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import type { CreateMaintenanceInput } from "@/server/schemas/maintenance/createMaintenanceInputSchema";
+import { fetchActiveOrRecentlyCompletedMaintenance } from "./api";
 import { maintenanceKeys } from "./queryKeys";
 
 export function useMaintenanceListQuery(equipmentId?: string) {
   return useQuery({
     queryKey: maintenanceKeys.list(equipmentId),
     queryFn: () => fetchMaintenanceList(equipmentId),
+  });
+}
+
+export function useActiveOrRecentlyCompletedMaintenanceQuery() {
+  return useQuery({
+    queryKey: maintenanceKeys.activeOrRecentlyCompleted(),
+    queryFn: fetchActiveOrRecentlyCompletedMaintenance,
   });
 }
 

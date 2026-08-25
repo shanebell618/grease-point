@@ -1,6 +1,6 @@
 import type { Prisma } from "@/generated/prisma/client";
-import { prisma } from "@/lib/prisma";
 import { equipmentFactory } from "./equipmentFactory";
+import { prisma } from "@/lib/prisma";
 
 let sequence = 0;
 
@@ -14,7 +14,7 @@ export const maintenanceFactory = {
 
     return prisma.maintenanceRecord.create({
       data: {
-        performedAt: new Date(),
+        serviceDate: new Date(),
         description: `Test maintenance ${sequence}`,
         status: "SCHEDULED",
         ...overrides,

@@ -4,5 +4,8 @@ import { MaintenanceDao } from "@/server/dataAccess/MaintenanceDao";
 export const createMaintenanceUseCase = async (
   input: CreateMaintenanceInput,
 ) => {
-  return MaintenanceDao.create(input);
+  return MaintenanceDao.create({
+    ...input,
+    completedAt: input.status === "COMPLETE" ? new Date() : null,
+  });
 };

@@ -3,10 +3,11 @@
 import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
-import Typography from "@mui/material/Typography";
 import { DataGridTable } from "@/common/components/DataGridTable";
-import { useMaintenanceListQuery } from "@/verticals/maintenance/hooks";
+import Typography from "@mui/material/Typography";
 import { getMaintenanceHistoryColumns } from "./getMaintenanceHistoryColumns";
+import { sortMaintenanceByPriority } from "@/verticals/maintenance/utils";
+import { useMaintenanceListQuery } from "@/verticals/maintenance/hooks";
 
 interface MaintenanceHistoryTableProps {
   equipmentId: string;
@@ -41,5 +42,10 @@ export const MaintenanceHistoryTable = ({
     );
   }
 
-  return <DataGridTable rows={data} columns={getMaintenanceHistoryColumns()} />;
+  return (
+    <DataGridTable
+      rows={sortMaintenanceByPriority(data)}
+      columns={getMaintenanceHistoryColumns()}
+    />
+  );
 };

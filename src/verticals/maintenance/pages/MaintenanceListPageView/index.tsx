@@ -9,7 +9,7 @@ export const MaintenanceListPageView = () => {
     <Container sx={{ py: 4 }}>
       <Stack
         direction="row"
-        sx={{ justifyContent: "space-between", alignItems: "center", mb: 3 }}
+        sx={{ justifyContent: "space-between", alignItems: "center", mb: 1 }}
         spacing={2}
       >
         <Typography variant="h4" component="h1">
@@ -19,6 +19,10 @@ export const MaintenanceListPageView = () => {
           Add Maintenance Record
         </Button>
       </Stack>
+      <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+        Showing active work, upcoming service, and anything completed in the
+        last 7 days.
+      </Typography>
       <MaintenanceList />
     </Container>
   );

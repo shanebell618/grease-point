@@ -4,9 +4,10 @@ import type { MaintenanceRecordModel } from "@/generated/prisma/models";
 // so date fields come back as ISO strings (or null), not Date instances.
 export type Maintenance = Omit<
   MaintenanceRecordModel,
-  "performedAt" | "nextDueDate" | "createdAt"
+  "serviceDate" | "completedAt" | "nextDueDate" | "createdAt"
 > & {
-  performedAt: string;
+  serviceDate: string;
+  completedAt: string | null;
   nextDueDate: string | null;
   createdAt: string;
 };

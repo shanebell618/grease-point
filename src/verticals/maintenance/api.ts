@@ -21,6 +21,13 @@ export async function fetchMaintenanceList(
   return parseOrThrow<Maintenance[]>(response);
 }
 
+export async function fetchActiveOrRecentlyCompletedMaintenance(): Promise<
+  Maintenance[]
+> {
+  const response = await fetch("/api/maintenance?recent=true");
+  return parseOrThrow<Maintenance[]>(response);
+}
+
 export async function fetchMaintenanceById(id: string): Promise<Maintenance> {
   const response = await fetch(`/api/maintenance/${id}`);
   return parseOrThrow<Maintenance>(response);

@@ -9,5 +9,16 @@ export const updateMaintenanceUseCase = async (
   const existing = await MaintenanceDao.getById(id);
   if (!existing) throw new NotFoundError("Maintenance record");
 
-  return MaintenanceDao.update(id, input);
+  const isBecomingComplete =
+    input.status === "COMPLETE" && existing.status !== "COMPLETE";
+  const isLeavingComplete =
+    input.status !== undefined &&
+    input.status !== "COMPLETE" &&
+    existing.status === "COMPLETE";
+
+  return MaintenanceDao.update(id, {
+    ...input,
+    ...(isBecomingComplete && { completedAt: new Date() }),
+    ...(isLeavingComplete && { completedAt: null }),
+  });
 };

@@ -16,7 +16,7 @@ describe("createMaintenanceAction", () => {
   it("validates input and calls the use case", async () => {
     const input = {
       equipmentId: "some-equipment-id",
-      performedAt: "2026-01-15",
+      serviceDate: "2026-01-15",
       description: "Replaced hydraulic hose",
       status: "COMPLETE",
     };

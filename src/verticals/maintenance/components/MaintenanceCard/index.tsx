@@ -1,45 +1,65 @@
 import Card from "@mui/material/Card";
+import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
 import type { Maintenance } from "@/verticals/maintenance/types";
 import { MaintenanceStatusBadge } from "@/verticals/maintenance/components/MaintenanceStatusBadge";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import { formatCurrency } from "@/common/utils/formatters/formatCurrency";
 import { formatDate } from "@/common/utils/formatters/formatDate";
 
 interface MaintenanceCardProps {
-  maintenance: Pick<Maintenance, "description" | "status" | "performedAt">;
+  maintenance: Pick<
+    Maintenance,
+    "description" | "status" | "serviceDate" | "completedAt" | "cost"
+  >;
+  equipmentId: string;
   equipmentName?: string;
 }
 
 export const MaintenanceCard = ({
   maintenance,
+  equipmentId,
   equipmentName,
 }: MaintenanceCardProps) => {
+  const isComplete = maintenance.status === "COMPLETE";
+  const dateLabel = isComplete ? "Completed" : "Service date";
+  const date = isComplete ? maintenance.completedAt : maintenance.serviceDate;
+
   return (
     <Card variant="outlined">
-      <CardContent>
-        <Stack
-          direction="row"
-          spacing={1}
-          sx={{ justifyContent: "space-between", alignItems: "flex-start" }}
-        >
-          <Typography
-            variant="h6"
-            component="h3"
-            noWrap
-            title={maintenance.description}
+      <CardActionArea href={`/equipment/${equipmentId}`}>
+        <CardContent>
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{ justifyContent: "space-between", alignItems: "flex-start" }}
           >
-            {maintenance.description}
+            <Typography
+              variant="h6"
+              component="h3"
+              noWrap
+              title={maintenance.description}
+            >
+              {maintenance.description}
+            </Typography>
+            <MaintenanceStatusBadge status={maintenance.status} />
+          </Stack>
+          {equipmentName && (
+            <Typography variant="body2" color="text.secondary">
+              {equipmentName}
+            </Typography>
+          )}
+          <Typography variant="body2" color="text.secondary">
+            {dateLabel}: {formatDate(date)}
           </Typography>
-          <MaintenanceStatusBadge status={maintenance.status} />
-        </Stack>
-        <Typography variant="body2" color="text.secondary">
-          {equipmentName}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          {formatDate(maintenance.performedAt)}
-        </Typography>
-      </CardContent>
+          {maintenance.cost != null && (
+            <Typography variant="body2" color="text.secondary">
+              Cost: {formatCurrency(maintenance.cost)}
+            </Typography>
+          )}
+        </CardContent>
+      </CardActionArea>
     </Card>
   );
 };

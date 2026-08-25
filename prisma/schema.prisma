@@ -53,9 +53,10 @@ model MaintenanceRecord {
   id            String    @id @default(cuid())
   equipmentId   String
   equipment     Equipment @relation(fields: [equipmentId], references: [id])
-  performedAt   DateTime
+  serviceDate   DateTime
   description   String
   status        MaintenanceStatus @default(SCHEDULED)
+  completedAt   DateTime?
   cost          Float?
   nextDueHours  Float?
   nextDueDate   DateTime?

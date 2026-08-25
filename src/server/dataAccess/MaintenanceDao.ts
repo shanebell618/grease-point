@@ -4,14 +4,26 @@ import { prisma } from "@/lib/prisma";
 export class MaintenanceDao {
   static async getAll() {
     return prisma.maintenanceRecord.findMany({
-      orderBy: { performedAt: "desc" },
+      orderBy: { serviceDate: "desc" },
     });
   }
 
   static async getAllByEquipmentId(equipmentId: string) {
     return prisma.maintenanceRecord.findMany({
       where: { equipmentId },
-      orderBy: { performedAt: "desc" },
+      orderBy: { serviceDate: "desc" },
+    });
+  }
+
+  static async getAllActiveOrRecentlyCompleted(completedAfter: Date) {
+    return prisma.maintenanceRecord.findMany({
+      where: {
+        OR: [
+          { status: { not: "COMPLETE" } },
+          { completedAt: { gte: completedAfter } },
+        ],
+      },
+      orderBy: { serviceDate: "desc" },
     });
   }
 

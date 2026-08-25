@@ -19,15 +19,15 @@ import { useEquipmentListQuery } from "@/verticals/equipment/hooks";
 import type { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-// Same z.input<> approach as EquipmentFormValues, with performedAt/
+// Same z.input<> approach as EquipmentFormValues, with serviceDate/
 // nextDueDate overridden to Dayjs — that's what the DatePicker actually
 // controls, and what a caller passing defaultValues (e.g. the edit page)
 // is responsible for providing.
 type MaintenanceFormValues = Omit<
   z.input<typeof createMaintenanceInputSchema>,
-  "performedAt" | "nextDueDate"
+  "serviceDate" | "nextDueDate"
 > & {
-  performedAt: Dayjs | null;
+  serviceDate: Dayjs | null;
   nextDueDate: Dayjs | null;
 };
 
@@ -75,7 +75,7 @@ export const MaintenanceForm = ({
     >,
     defaultValues: {
       equipmentId: equipmentId ?? "",
-      performedAt: null,
+      serviceDate: null,
       description: "",
       status: "SCHEDULED",
       cost: null,
@@ -123,18 +123,18 @@ export const MaintenanceForm = ({
       )}
 
       <Controller
-        name="performedAt"
+        name="serviceDate"
         control={control}
         render={({ field }) => (
           <DatePicker
-            label="Performed on"
+            label="Service date"
             value={field.value}
             onChange={field.onChange}
             slotProps={{
               textField: {
                 required: true,
-                error: !!errors.performedAt,
-                helperText: errors.performedAt?.message,
+                error: !!errors.serviceDate,
+                helperText: errors.serviceDate?.message,
               },
             }}
           />

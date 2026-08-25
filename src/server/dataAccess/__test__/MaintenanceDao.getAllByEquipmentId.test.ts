@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 
+import { MaintenanceDao } from "../MaintenanceDao";
 import { equipmentFactory } from "@/test/factories/equipmentFactory";
 import { maintenanceFactory } from "@/test/factories/maintenanceFactory";
-import { MaintenanceDao } from "../MaintenanceDao";
 
 describe("MaintenanceDao.getAllByEquipmentId", () => {
   it("scopes results to the given equipmentId", async () => {
@@ -16,16 +16,16 @@ describe("MaintenanceDao.getAllByEquipmentId", () => {
     expect(result[0]?.equipmentId).toBe(equipment.id);
   });
 
-  it("orders results by performedAt descending", async () => {
+  it("orders results by serviceDate descending", async () => {
     const equipment = await equipmentFactory.create();
     await maintenanceFactory.create({
       equipmentId: equipment.id,
-      performedAt: new Date("2026-01-01"),
+      serviceDate: new Date("2026-01-01"),
       description: "Older",
     });
     await maintenanceFactory.create({
       equipmentId: equipment.id,
-      performedAt: new Date("2026-03-01"),
+      serviceDate: new Date("2026-03-01"),
       description: "Newer",
     });
 
