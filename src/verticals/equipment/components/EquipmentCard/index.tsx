@@ -3,7 +3,7 @@ import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
 import type { Equipment } from "@/verticals/equipment/types";
 import Stack from "@mui/material/Stack";
-import { StatusBadge } from "@/common/components/StatusBadge";
+import { EquipmentStatusBadge } from "@/verticals/equipment/components/EquipmentStatusBadge";
 import Typography from "@mui/material/Typography";
 import { formatOperatingHours } from "@/verticals/equipment/utils";
 
@@ -23,7 +23,7 @@ export const EquipmentCard = ({ equipment, href }: EquipmentCardProps) => {
         <Typography variant="h6" component="h3" noWrap title={equipment.name}>
           {equipment.name}
         </Typography>
-        <StatusBadge status={equipment.status} />
+        <EquipmentStatusBadge status={equipment.status} />
       </Stack>
       <Typography variant="body2" color="text.secondary">
         VIN {equipment.vin}

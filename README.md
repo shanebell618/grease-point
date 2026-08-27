@@ -3,11 +3,6 @@
 A heavy equipment tracking app — maintenance schedules, repair history,
 documents, inspections, and parts inventory for a fleet of machines.
 
-This is a portfolio/learning project. The **Equipment flow** (list → detail
-→ create/edit → delete) is fully built, tested, and wired to a real
-database. Everything else is a documented breadcrumb — see [TODO.md](TODO.md)
-for what's stubbed out and how to build it next.
-
 ## Stack
 
 |                        |                                                   |
@@ -22,8 +17,6 @@ for what's stubbed out and how to build it next.
 | Component docs         | Storybook (`@storybook/nextjs-vite`)              |
 | CI                     | GitHub Actions                                    |
 | Lint/format            | ESLint + Prettier                                 |
-
-Chosen deliberately to mirror what current job postings ask for.
 
 ## Development
 
