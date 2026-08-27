@@ -8,7 +8,7 @@ import type { DataGridProps } from "@mui/x-data-grid";
 
 type AllowedDataGridProps = Pick<
   DataGridProps,
-  "rows" | "columns" | "getRowId" | "initialState"
+  "rows" | "columns" | "getRowId" | "initialState" | "onRowClick"
 >;
 
 export interface DataGridTableProps extends AllowedDataGridProps {
@@ -22,6 +22,7 @@ export const DataGridTable = ({
   columns,
   getRowId,
   initialState,
+  onRowClick,
   pageSizeOptions = [10, 25, 50],
   sx,
   hidePagination = false,
@@ -37,6 +38,7 @@ export const DataGridTable = ({
         columns={columns}
         density="standard"
         getRowId={getRowId ?? ((row) => row.id)}
+        onRowClick={onRowClick}
         initialState={
           hidePagination
             ? initialState
@@ -56,6 +58,9 @@ export const DataGridTable = ({
         sx={{
           border: "none",
           "& .MuiDataGrid-cell:focus": { outline: "none" },
+          ...(onRowClick && {
+            "& .MuiDataGrid-row": { cursor: "pointer" },
+          }),
           ...sx,
         }}
       />

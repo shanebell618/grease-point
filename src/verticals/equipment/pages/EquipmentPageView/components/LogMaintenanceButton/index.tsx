@@ -40,7 +40,7 @@ export const LogMaintenanceButton = ({
         fullWidth
       >
         <DialogTitle>Log Maintenance</DialogTitle>
-        <DialogContent>
+        <DialogContent sx={{ "&&": { pt: 3 } }}>
           {createMutation.isError && (
             <Alert severity="error" sx={{ mb: 2 }}>
               Couldn&apos;t save this maintenance record. Check the fields and

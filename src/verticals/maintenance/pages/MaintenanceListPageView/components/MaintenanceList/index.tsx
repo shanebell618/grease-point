@@ -54,7 +54,6 @@ export const MaintenanceList = () => {
         <Grid key={maintenance.id} size={{ xs: 12 }}>
           <MaintenanceCard
             maintenance={maintenance}
-            equipmentId={maintenance.equipmentId}
             equipmentName={
               equipmentNameById.get(maintenance.equipmentId) ??
               "Unknown equipment"
