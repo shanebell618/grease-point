@@ -16,7 +16,7 @@ export function filterEquipmentByStatus<T extends Pick<Equipment, "status">>(
   return items.filter((item) => item.status === status);
 }
 
-export function formatEngineHours(hours: number | null | undefined): string {
+export function formatOperatingHours(hours: number | null | undefined): string {
   if (hours == null) return "—";
   return `${new Intl.NumberFormat("en-US", { maximumFractionDigits: 1 }).format(hours)} hrs`;
 }

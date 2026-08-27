@@ -53,20 +53,24 @@ sqlite3 prisma/dev.db "select * from Equipment;"
 
 ## Seeing the schema as a diagram
 
-[`prisma/database.erd`](../../prisma/database.erd) is a visual,
-editable entity-relationship diagram of the schema, in the format used by
-the [ERD Editor](https://marketplace.visualstudio.com/items?itemName=dineug.vuerd-vscode)
+There are two, for different purposes:
+
+**[`prisma/ERD.svg`](../../prisma/ERD.svg)** — auto-generated on every
+`prisma generate` (including the `postinstall` step after `npm install`),
+via the `erd` generator block in `schema.prisma`. Always current, zero
+manual effort, but static — open it as an image, you can't rearrange
+anything.
+
+**[`prisma/database.erd`](../../prisma/database.erd)** — a visual,
+editable diagram in the format used by the
+[ERD Editor](https://marketplace.visualstudio.com/items?itemName=dineug.vuerd-vscode)
 VS Code extension (`.vscode/extensions.json` recommends it, so VS Code
 should prompt you to install it if you don't have it already). Open the
 file and VS Code renders it as an interactive diagram — drag tables
-around, click a column to see its type/key info.
-
-Unlike `prisma/schema.prisma`, this file is **not** auto-generated — it's
-a separate, hand-maintained artifact. If you add or change models, update
-`database.erd` yourself (add a table, drag out columns, etc.) so it stays
-in sync. It won't drift automatically like a generated diagram would, but
-it also won't silently go stale in a way that breaks anything — it's
-purely a visual aid.
+around, click a column to see its type/key info. Unlike `ERD.svg`, this
+one is **not** auto-generated — it's a separate, hand-maintained artifact.
+If you add or change models, update `database.erd` yourself (add a table,
+drag out columns, etc.) so it stays in sync.
 
 ## Heads up: there are three separate database files
 

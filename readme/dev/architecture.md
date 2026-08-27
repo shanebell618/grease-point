@@ -85,7 +85,8 @@ src/server/
       createEquipmentUseCase.ts          business logic. Takes already-validated,
       updateEquipmentUseCase.ts           already-typed input, calls the Dao, applies
       deleteEquipmentUseCase.ts            any rules ("can't update equipment that
-      findAllEquipmentUseCase.ts            doesn't exist" -> NotFoundError, etc.)
+      getAllEquipmentUseCase.ts              doesn't exist" -> NotFoundError, etc.)
+      getAllEquipmentByStatusUseCase.ts
       getEquipmentByIdUseCase.ts
     errors.ts                            shared error types (NotFoundError, ...)
   actions/

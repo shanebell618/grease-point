@@ -16,7 +16,7 @@ describe("createEquipmentAction", () => {
   it("validates input and calls the use case", async () => {
     const input = {
       name: "CAT 320 Excavator",
-      serialNumber: "CAT0320XJDR12345",
+      vin: "CAT0320XJDR12345",
       status: "ACTIVE",
     };
     createEquipmentUseCaseMock.mockResolvedValue({ id: "1", ...input });
@@ -26,7 +26,7 @@ describe("createEquipmentAction", () => {
     expect(createEquipmentUseCaseMock).toHaveBeenCalledWith(
       expect.objectContaining({
         name: input.name,
-        serialNumber: input.serialNumber,
+        vin: input.vin,
       }),
     );
     expect(result).toMatchObject({ id: "1" });

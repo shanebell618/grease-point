@@ -10,7 +10,11 @@ const meta: Meta<typeof StatusBadge> = {
 export default meta;
 type Story = StoryObj<typeof StatusBadge>;
 
-export const Active: Story = { args: { status: "ACTIVE" } };
-export const Maintenance: Story = { args: { status: "MAINTENANCE" } };
-export const Retired: Story = { args: { status: "RETIRED" } };
-export const OutOfService: Story = { args: { status: "OUT_OF_SERVICE" } };
+export const Success: Story = { args: { label: "Active", color: "success" } };
+export const Warning: Story = {
+  args: { label: "Maintenance", color: "warning" },
+};
+export const ErrorState: Story = {
+  args: { label: "Out of Service", color: "error" },
+};
+export const Default: Story = { args: { label: "Retired", color: "default" } };

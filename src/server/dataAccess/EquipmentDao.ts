@@ -3,9 +3,15 @@ import type { Prisma } from "@/generated/prisma/client";
 import type { EquipmentStatus } from "@/generated/prisma/enums";
 
 export class EquipmentDao {
-  static async findMany(status?: EquipmentStatus) {
+  static async getAll() {
     return prisma.equipment.findMany({
-      where: status ? { status } : undefined,
+      orderBy: { name: "asc" },
+    });
+  }
+
+  static async getAllByStatus(status: EquipmentStatus) {
+    return prisma.equipment.findMany({
+      where: { status },
       orderBy: { name: "asc" },
     });
   }

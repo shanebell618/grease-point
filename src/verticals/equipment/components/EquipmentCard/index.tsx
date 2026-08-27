@@ -3,15 +3,12 @@ import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
 import type { Equipment } from "@/verticals/equipment/types";
 import Stack from "@mui/material/Stack";
-import { StatusBadge } from "@/common/components/StatusBadge";
+import { EquipmentStatusBadge } from "@/verticals/equipment/components/EquipmentStatusBadge";
 import Typography from "@mui/material/Typography";
-import { formatEngineHours } from "@/verticals/equipment/utils";
+import { formatOperatingHours } from "@/verticals/equipment/utils";
 
 interface EquipmentCardProps {
-  equipment: Pick<
-    Equipment,
-    "name" | "serialNumber" | "status" | "engineHours"
-  >;
+  equipment: Pick<Equipment, "name" | "vin" | "status" | "operatingHours">;
   href?: string;
 }
 
@@ -26,13 +23,13 @@ export const EquipmentCard = ({ equipment, href }: EquipmentCardProps) => {
         <Typography variant="h6" component="h3" noWrap title={equipment.name}>
           {equipment.name}
         </Typography>
-        <StatusBadge status={equipment.status} />
+        <EquipmentStatusBadge status={equipment.status} />
       </Stack>
       <Typography variant="body2" color="text.secondary">
-        S/N {equipment.serialNumber}
+        VIN {equipment.vin}
       </Typography>
       <Typography variant="body2" color="text.secondary">
-        {formatEngineHours(equipment.engineHours)}
+        {formatOperatingHours(equipment.operatingHours)}
       </Typography>
     </CardContent>
   );

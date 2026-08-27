@@ -1,17 +1,18 @@
 "use client";
 
-import type { z } from "zod";
 import { Controller, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import Button from "@mui/material/Button";
-import MenuItem from "@mui/material/MenuItem";
-import Stack from "@mui/material/Stack";
-import TextField from "@mui/material/TextField";
 import {
   EQUIPMENT_STATUSES,
   createEquipmentInputSchema,
 } from "@/server/schemas/equipment/createEquipmentInputSchema";
+
+import Button from "@mui/material/Button";
 import type { CreateEquipmentInput } from "@/server/schemas/equipment/createEquipmentInputSchema";
+import MenuItem from "@mui/material/MenuItem";
+import Stack from "@mui/material/Stack";
+import TextField from "@mui/material/TextField";
+import type { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 // The form's raw field values (pre zod-coercion) differ slightly from
 // CreateEquipmentInput (post-coercion, e.g. purchasePrice as `unknown` vs
@@ -46,11 +47,10 @@ export const EquipmentForm = ({
     resolver: zodResolver(createEquipmentInputSchema),
     defaultValues: {
       name: "",
-      serialNumber: "",
       vin: "",
       status: "ACTIVE",
       purchasePrice: null,
-      engineHours: null,
+      operatingHours: null,
       photoUrl: "",
       notes: "",
       ...defaultValues,
@@ -74,20 +74,6 @@ export const EquipmentForm = ({
             required
             error={!!errors.name}
             helperText={errors.name?.message}
-          />
-        )}
-      />
-
-      <Controller
-        name="serialNumber"
-        control={control}
-        render={({ field }) => (
-          <TextField
-            {...field}
-            label="Serial number"
-            required
-            error={!!errors.serialNumber}
-            helperText={errors.serialNumber?.message}
           />
         )}
       />
@@ -129,17 +115,17 @@ export const EquipmentForm = ({
       />
 
       <Controller
-        name="engineHours"
+        name="operatingHours"
         control={control}
         render={({ field }) => (
           <TextField
             {...field}
             value={field.value ?? ""}
             type="number"
-            label="Engine hours"
+            label="Operating hours"
             slotProps={{ input: { inputProps: { min: 0, step: "0.1" } } }}
-            error={!!errors.engineHours}
-            helperText={errors.engineHours?.message}
+            error={!!errors.operatingHours}
+            helperText={errors.operatingHours?.message}
           />
         )}
       />
