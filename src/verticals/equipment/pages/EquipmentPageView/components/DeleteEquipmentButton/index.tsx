@@ -9,6 +9,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useDeleteEquipmentMutation } from "@/verticals/equipment/hooks";
+import { useToasts } from "@/common/hooks/useToasts";
 
 interface DeleteEquipmentButtonProps {
   id: string;
@@ -22,12 +23,17 @@ export const DeleteEquipmentButton = ({
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const deleteMutation = useDeleteEquipmentMutation();
+  const { successToast, errorToast } = useToasts();
 
   const handleConfirm = () => {
     deleteMutation.mutate(id, {
       onSuccess: () => {
+        successToast(`${name} deleted`);
         setOpen(false);
         router.push("/equipment");
+      },
+      onError: () => {
+        errorToast("Couldn't delete this equipment. Try again.");
       },
     });
   };

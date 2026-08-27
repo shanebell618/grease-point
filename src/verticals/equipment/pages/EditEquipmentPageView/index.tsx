@@ -13,6 +13,7 @@ import type { CreateEquipmentInput } from "@/server/schemas/equipment/createEqui
 import { EquipmentForm } from "@/verticals/equipment/components/EquipmentForm";
 import Typography from "@mui/material/Typography";
 import { useRouter } from "next/navigation";
+import { useToasts } from "@/common/hooks/useToasts";
 
 interface EditEquipmentPageViewProps {
   id: string;
@@ -22,11 +23,18 @@ export const EditEquipmentPageView = ({ id }: EditEquipmentPageViewProps) => {
   const router = useRouter();
   const { data, isPending, isError } = useEquipmentQuery(id);
   const updateMutation = useUpdateEquipmentMutation(id);
+  const { successToast, errorToast } = useToasts();
 
   const handleSubmit = (data: CreateEquipmentInput) => {
     updateMutation.mutate(data, {
       onSuccess: () => {
+        successToast("Equipment updated");
         router.push(`/equipment/${id}`);
+      },
+      onError: () => {
+        errorToast(
+          "Couldn't save these changes. Check the fields and try again.",
+        );
       },
     });
   };
@@ -44,11 +52,6 @@ export const EditEquipmentPageView = ({ id }: EditEquipmentPageViewProps) => {
       {isError && (
         <Alert severity="error">
           Couldn&apos;t load this equipment. It may have been deleted.
-        </Alert>
-      )}
-      {updateMutation.isError && (
-        <Alert severity="error" sx={{ mb: 2 }}>
-          Couldn&apos;t save these changes. Check the fields and try again.
         </Alert>
       )}
       {data && (
