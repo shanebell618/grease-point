@@ -11,9 +11,24 @@ interface SampleRow {
 }
 
 const sampleRows: SampleRow[] = [
-  { id: "1", name: "CAT 320 Excavator", status: "Active", operatingHours: 1240.5 },
-  { id: "2", name: "Bobcat S650 Skid Steer", status: "Maintenance", operatingHours: 890 },
-  { id: "3", name: "John Deere 850K Dozer", status: "Active", operatingHours: 2310.25 },
+  {
+    id: "1",
+    name: "CAT 320 Excavator",
+    status: "Active",
+    operatingHours: 1240.5,
+  },
+  {
+    id: "2",
+    name: "Bobcat S650 Skid Steer",
+    status: "Maintenance",
+    operatingHours: 890,
+  },
+  {
+    id: "3",
+    name: "John Deere 850K Dozer",
+    status: "Active",
+    operatingHours: 2310.25,
+  },
 ];
 
 const sampleColumns: GridColDef<SampleRow>[] = [
