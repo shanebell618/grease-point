@@ -25,10 +25,15 @@ jobs:
           cache: "npm"
 
       - name: Install dependencies
+        # The erd generator pulls in Puppeteer, which downloads a full
+        # Chromium build on install — CI never renders the ERD diagram
+        # (that's a manual `npm run erd` for local docs), so skip it.
         run: npm ci
+        env:
+          PUPPETEER_SKIP_DOWNLOAD: "true"
 
       - name: Generate Prisma client
-        run: npx prisma generate
+        run: npx prisma generate --generator client --generator dmmf
 
       - name: Lint
         run: npm run lint
