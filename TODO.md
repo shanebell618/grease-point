@@ -17,9 +17,9 @@ so that's the reference implementation to copy from throughout.
 
 ## Cross-cutting stretch goals
 
-- [ ] **Auth** (JWT or Google login) — [`src/verticals/auth/README.md`](src/verticals/auth/README.md)
+- [ ] **Auth + data ownership** — originally scoped as a standalone "Auth" item, but user-scoped data ("each user has their own equipment/maintenance") only means something once real accounts exist, so these are one feature, not two sequential ones. Recommended: [Clerk](https://clerk.com) (free up to 50k monthly users) rather than rolling a JWT/Auth.js flow — `dip-financing-portal` already uses it for exactly this, so it's a real reference implementation to copy from, not a cold start. The shape: a `User` model in `prisma/schema.prisma`; a `userId` foreign key on `Equipment` (`MaintenanceRecord` inherits ownership through its equipment, same as everything else it already inherits); every equipment/maintenance query scoped to the logged-in user's id; and — the part that's easy to skip and shouldn't be — an authorization check on every _mutation_, not just the list queries, so user A can't edit user B's equipment by guessing an id in the URL. DIP's `Policy` layer (`src/common/policies/ListingPolicy.ts` et al.) is the pattern to copy for that last part rather than inventing one. [`src/verticals/auth/README.md`](src/verticals/auth/README.md) was written before this decision and still describes the older JWT/Auth.js plan — needs a pass to match before this is actually started.
 - [ ] **Dark mode** — TODO comment next to the `createTheme()` call in [`src/styles/theme.ts`](src/styles/theme.ts). MUI's `palette.mode` makes this small: a toggle component + a persisted preference (localStorage or a cookie for SSR) driving `light`/`dark`.
-- [ ] **Toasts** — TODO comment in [`src/app/providers.tsx`](src/app/providers.tsx). Add a global `ToastProvider` using MUI `Snackbar`/`Alert`, then have mutations across features report through it.
+- [x] **Toasts** — shipped with [notistack](https://www.npmjs.com/package/notistack) rather than hand-rolled MUI `Snackbar`/`Alert`, matching `dip-financing-portal`'s `useToasts` pattern exactly (see [`src/common/hooks/useToasts.ts`](src/common/hooks/useToasts.ts) and its `SnackbarProvider` in [`src/app/providers.tsx`](src/app/providers.tsx)). Every mutation across the app now reports through it — success and error — replacing the inline `Alert` blocks each feature was building on its own before.
 - [ ] **Optimistic updates** — TODO comment on `useDeleteEquipmentMutation` in [`src/verticals/equipment/hooks.ts`](src/verticals/equipment/hooks.ts). Delete is the natural first candidate: remove the item from the `equipmentKeys.list()` cache in `onMutate`, roll back `onError`, skip the invalidate-on-success round trip.
 - [ ] **File uploads** — see the Documents README; the natural successor to `Equipment.photoUrl` (currently a single string field) is a real upload pipeline.
 - [ ] **"View all" for the maintenance landing page** — `/maintenance` defaults to `?recent=true` (active work plus anything completed in the last 7 days), so older completed records disappear from the card grid entirely. Add a "View all" button/link somewhere on that page that drops the `?recent` filter and shows the full, unfiltered history — probably as a paginated `DataGridTable` (same component the equipment-detail history table already uses) rather than the card grid, since an unfiltered history could get long.
@@ -53,3 +53,12 @@ Full writeup: [`readme/dev/architecture.md`](readme/dev/architecture.md). Quick 
   test (see [`readme/dev/running-tests.md`](readme/dev/running-tests.md)
   for the pattern — `dataAccess`/`useCases` tests run against an
   in-memory mocked Prisma client, `actions` tests mock the use case).
+- New or changed **presentational** components (props in, JSX out — no
+  data-fetching hooks, no mutations) get a co-located `.stories.tsx`
+  covering their meaningful prop variations, regardless of which folder
+  they live in. **Connected** components (they call a `useQuery`/
+  `useMutation` hook themselves) generally don't — there's no interesting
+  fixed set of props to showcase, and Storybook has nothing real to fetch
+  from. When touching an existing component, check whether its story (if
+  it has one) still matches — a prop shape change or a new variant is as
+  much a "story change" as a "code change."

@@ -3,10 +3,10 @@
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import type { SelectChangeEvent } from "@mui/material/Select";
-import Typography from "@mui/material/Typography";
 import { StatusBadge } from "@/common/components/StatusBadge";
 import { EQUIPMENT_STATUS_CONFIG } from "@/verticals/equipment/components/EquipmentStatusBadge";
 import type { EquipmentStatus } from "@/verticals/equipment/types";
+import { useToasts } from "@/common/hooks/useToasts";
 import { useUpdateEquipmentMutation } from "@/verticals/equipment/hooks";
 
 interface EquipmentStatusControlProps {
@@ -25,45 +25,45 @@ export const EquipmentStatusControl = ({
   status,
 }: EquipmentStatusControlProps) => {
   const updateMutation = useUpdateEquipmentMutation(equipmentId);
+  const { successToast, errorToast } = useToasts();
 
   const handleChange = (event: SelectChangeEvent<EquipmentStatus>) => {
     const nextStatus = event.target.value as EquipmentStatus;
     if (nextStatus === status) return;
-    updateMutation.mutate({ status: nextStatus });
+    updateMutation.mutate(
+      { status: nextStatus },
+      {
+        onSuccess: () => {
+          successToast("Equipment status updated");
+        },
+        onError: () => {
+          errorToast("Couldn't update status. Try again.");
+        },
+      },
+    );
   };
 
   return (
-    <>
-      <Select<EquipmentStatus>
-        value={status}
-        onChange={handleChange}
-        disabled={updateMutation.isPending}
-        variant="standard"
-        disableUnderline
-        aria-label="Equipment status"
-        renderValue={(value) => {
-          const { label, color } = EQUIPMENT_STATUS_CONFIG[value];
-          return <StatusBadge label={label} color={color} />;
-        }}
-        sx={{
-          "& .MuiSelect-select": { py: 0, display: "flex" },
-        }}
-      >
-        {Object.entries(EQUIPMENT_STATUS_CONFIG).map(([value, config]) => (
-          <MenuItem key={value} value={value}>
-            <StatusBadge label={config.label} color={config.color} />
-          </MenuItem>
-        ))}
-      </Select>
-      {updateMutation.isError && (
-        <Typography
-          color="error"
-          variant="caption"
-          sx={{ display: "block", mt: 0.5 }}
-        >
-          Couldn&apos;t update status. Try again.
-        </Typography>
-      )}
-    </>
+    <Select<EquipmentStatus>
+      value={status}
+      onChange={handleChange}
+      disabled={updateMutation.isPending}
+      variant="standard"
+      disableUnderline
+      aria-label="Equipment status"
+      renderValue={(value) => {
+        const { label, color } = EQUIPMENT_STATUS_CONFIG[value];
+        return <StatusBadge label={label} color={color} />;
+      }}
+      sx={{
+        "& .MuiSelect-select": { py: 0, display: "flex" },
+      }}
+    >
+      {Object.entries(EQUIPMENT_STATUS_CONFIG).map(([value, config]) => (
+        <MenuItem key={value} value={value}>
+          <StatusBadge label={config.label} color={config.color} />
+        </MenuItem>
+      ))}
+    </Select>
   );
 };
