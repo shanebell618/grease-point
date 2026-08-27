@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { DeleteEquipmentButton } from "../DeleteEquipmentButton";
 import type { Equipment } from "@/verticals/equipment/types";
-import { EquipmentStatusBadge } from "@/verticals/equipment/components/EquipmentStatusBadge";
+import { EquipmentStatusControl } from "../EquipmentStatusControl";
 import Grid from "@mui/material/Grid";
 import { LogMaintenanceButton } from "../LogMaintenanceButton";
 import { MaintenanceHistoryTable } from "../MaintenanceHistoryTable";
@@ -43,7 +43,10 @@ export const EquipmentDetail = ({ equipment }: EquipmentDetailProps) => {
             {equipment.name}
           </Typography>
           <Box sx={{ mt: 1 }}>
-            <EquipmentStatusBadge status={equipment.status} />
+            <EquipmentStatusControl
+              equipmentId={equipment.id}
+              status={equipment.status}
+            />
           </Box>
         </Box>
         <Stack direction="row" spacing={1}>

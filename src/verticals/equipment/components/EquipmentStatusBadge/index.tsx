@@ -2,7 +2,7 @@ import { StatusBadge } from "@/common/components/StatusBadge";
 import type { StatusBadgeColor } from "@/common/components/StatusBadge";
 import type { EquipmentStatus } from "@/verticals/equipment/types";
 
-const EQUIPMENT_STATUS_CONFIG: Record<
+export const EQUIPMENT_STATUS_CONFIG: Record<
   EquipmentStatus,
   { label: string; color: StatusBadgeColor }
 > = {

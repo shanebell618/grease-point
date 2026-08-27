@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 
+import { EquipmentDao } from "@/server/dataAccess/EquipmentDao";
 import { NotFoundError } from "@/server/useCases/errors";
+import { equipmentFactory } from "@/test/factories/equipmentFactory";
 import { maintenanceFactory } from "@/test/factories/maintenanceFactory";
 import { updateMaintenanceUseCase } from "../updateMaintenanceUseCase";
 
@@ -23,5 +25,46 @@ describe("updateMaintenanceUseCase", () => {
     await expect(
       updateMaintenanceUseCase("does-not-exist", { status: "COMPLETE" }),
     ).rejects.toThrow(NotFoundError);
+  });
+
+  it("sets the equipment to OUT_OF_SERVICE when the record moves into IN_PROGRESS", async () => {
+    const equipment = await equipmentFactory.create({ status: "ACTIVE" });
+    const maintenance = await maintenanceFactory.create({
+      equipmentId: equipment.id,
+      status: "SCHEDULED",
+    });
+
+    await updateMaintenanceUseCase(maintenance.id, { status: "IN_PROGRESS" });
+
+    const updatedEquipment = await EquipmentDao.getById(equipment.id);
+    expect(updatedEquipment?.status).toBe("OUT_OF_SERVICE");
+  });
+
+  it("does not touch the equipment when the record leaves IN_PROGRESS", async () => {
+    const equipment = await equipmentFactory.create({
+      status: "OUT_OF_SERVICE",
+    });
+    const maintenance = await maintenanceFactory.create({
+      equipmentId: equipment.id,
+      status: "IN_PROGRESS",
+    });
+
+    await updateMaintenanceUseCase(maintenance.id, { status: "COMPLETE" });
+
+    const updatedEquipment = await EquipmentDao.getById(equipment.id);
+    expect(updatedEquipment?.status).toBe("OUT_OF_SERVICE");
+  });
+
+  it("does not re-sync the equipment when the record was already IN_PROGRESS", async () => {
+    const equipment = await equipmentFactory.create({ status: "ACTIVE" });
+    const maintenance = await maintenanceFactory.create({
+      equipmentId: equipment.id,
+      status: "IN_PROGRESS",
+    });
+
+    await updateMaintenanceUseCase(maintenance.id, { description: "Updated" });
+
+    const updatedEquipment = await EquipmentDao.getById(equipment.id);
+    expect(updatedEquipment?.status).toBe("ACTIVE");
   });
 });
