@@ -30,7 +30,7 @@ export const NewMaintenancePageView = () => {
   return (
     <Container maxWidth="sm" sx={{ py: 4 }}>
       <Typography variant="h4" component="h1" sx={{ mb: 3 }}>
-        Add Maintenance Record
+        Add Maintenance
       </Typography>
       <MaintenanceForm
         onSubmit={handleSubmit}

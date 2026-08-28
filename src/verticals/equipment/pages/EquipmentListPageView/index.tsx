@@ -8,8 +8,12 @@ export const EquipmentListPageView = () => {
   return (
     <Container sx={{ py: 4 }}>
       <Stack
-        direction="row"
-        sx={{ justifyContent: "space-between", alignItems: "center", mb: 3 }}
+        direction={{ xs: "column", sm: "row" }}
+        sx={{
+          justifyContent: "space-between",
+          alignItems: { xs: "flex-start", sm: "center" },
+          mb: 3,
+        }}
         spacing={2}
       >
         <Typography variant="h4" component="h1">
