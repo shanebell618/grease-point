@@ -11,6 +11,8 @@ import type { Maintenance } from "@/verticals/maintenance/types";
 import { getMaintenanceHistoryColumns } from "./getMaintenanceHistoryColumns";
 import { sortMaintenanceByPriority } from "@/verticals/maintenance/utils";
 import { useMaintenanceListQuery } from "@/verticals/maintenance/hooks";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
 
 interface MaintenanceHistoryTableProps {
   equipmentId: string;
@@ -22,6 +24,8 @@ export const MaintenanceHistoryTable = ({
   const { data, isPending, isError } = useMaintenanceListQuery(equipmentId);
   const [selectedMaintenance, setSelectedMaintenance] =
     useState<Maintenance | null>(null);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   if (isPending) {
     return (
@@ -53,6 +57,13 @@ export const MaintenanceHistoryTable = ({
         rows={sortMaintenanceByPriority(data)}
         columns={getMaintenanceHistoryColumns()}
         onRowClick={(params) => setSelectedMaintenance(params.row)}
+        initialState={{
+          columns: {
+            columnVisibilityModel: isMobile
+              ? { completedAt: false, cost: false, nextDueDate: false }
+              : {},
+          },
+        }}
       />
       {selectedMaintenance && (
         <EditMaintenanceDialog

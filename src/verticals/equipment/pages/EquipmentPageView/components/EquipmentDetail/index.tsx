@@ -34,7 +34,7 @@ export const EquipmentDetail = ({ equipment }: EquipmentDetailProps) => {
   return (
     <Stack spacing={3}>
       <Stack
-        direction="row"
+        direction={{ xs: "column", sm: "row" }}
         sx={{ justifyContent: "space-between", alignItems: "flex-start" }}
         spacing={2}
       >
@@ -49,7 +49,7 @@ export const EquipmentDetail = ({ equipment }: EquipmentDetailProps) => {
             />
           </Box>
         </Box>
-        <Stack direction="row" spacing={1}>
+        <Stack direction="row" spacing={1} useFlexGap sx={{ flexWrap: "wrap" }}>
           <LogMaintenanceButton equipmentId={equipment.id} />
           <Button href={`/equipment/${equipment.id}/edit`} variant="outlined">
             Edit
