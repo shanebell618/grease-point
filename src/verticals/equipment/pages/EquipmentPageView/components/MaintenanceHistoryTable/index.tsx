@@ -1,17 +1,17 @@
 "use client";
 
-import { useState } from "react";
 import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import { DataGridTable } from "@/common/components/DataGridTable";
 import { EditMaintenanceDialog } from "@/verticals/maintenance/components/EditMaintenanceDialog";
-import Typography from "@mui/material/Typography";
 import type { Maintenance } from "@/verticals/maintenance/types";
+import Typography from "@mui/material/Typography";
 import { getMaintenanceHistoryColumns } from "./getMaintenanceHistoryColumns";
 import { sortMaintenanceByPriority } from "@/verticals/maintenance/utils";
 import { useMaintenanceListQuery } from "@/verticals/maintenance/hooks";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { useState } from "react";
 import { useTheme } from "@mui/material/styles";
 
 interface MaintenanceHistoryTableProps {
@@ -68,7 +68,7 @@ export const MaintenanceHistoryTable = ({
       {selectedMaintenance && (
         <EditMaintenanceDialog
           key={selectedMaintenance.id}
-          maintenance={selectedMaintenance}
+          maintenanceRecordId={selectedMaintenance.id}
           open
           onClose={() => setSelectedMaintenance(null)}
         />

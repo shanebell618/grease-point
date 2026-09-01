@@ -1,6 +1,6 @@
 "use client";
 
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import {
   MAINTENANCE_STATUSES,
   createMaintenanceInputSchema,
@@ -12,6 +12,7 @@ import type { CreateMaintenanceInput } from "@/server/schemas/maintenance/create
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import type { Dayjs } from "dayjs";
 import MenuItem from "@mui/material/MenuItem";
+import { PartsUsedFields } from "./components/PartsUsedFields";
 import type { Resolver } from "react-hook-form";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
@@ -22,8 +23,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 // Same z.input<> approach as EquipmentFormValues, with serviceDate/
 // nextDueDate overridden to Dayjs — that's what the DatePicker actually
 // controls, and what a caller passing defaultValues (e.g. the edit page)
-// is responsible for providing.
-type MaintenanceFormValues = Omit<
+// is responsible for providing. Exported so PartsUsedFields can type its
+// `control` prop against the exact same form values.
+export type MaintenanceFormValues = Omit<
   z.input<typeof createMaintenanceInputSchema>,
   "serviceDate" | "nextDueDate"
 > & {
@@ -81,9 +83,16 @@ export const MaintenanceForm = ({
       cost: null,
       nextDueHours: null,
       nextDueDate: null,
+      partsUsed: [],
       ...defaultValues,
     },
   });
+
+  // Re-renders this component when status changes, without subscribing
+  // the whole form to every field's changes the way calling the form's
+  // own watch("status") would. Lets the parts-used section appear/
+  // disappear live as the dropdown changes, not just on next render.
+  const status = useWatch({ control, name: "status" });
 
   return (
     <Stack
@@ -162,14 +171,18 @@ export const MaintenanceForm = ({
         control={control}
         render={({ field }) => (
           <TextField {...field} select label="Status" required>
-            {MAINTENANCE_STATUSES.map((status) => (
-              <MenuItem key={status} value={status}>
-                {STATUS_LABELS[status]}
+            {MAINTENANCE_STATUSES.map((statusOption) => (
+              <MenuItem key={statusOption} value={statusOption}>
+                {STATUS_LABELS[statusOption]}
               </MenuItem>
             ))}
           </TextField>
         )}
       />
+
+      {status === "COMPLETE" && (
+        <PartsUsedFields control={control} errors={errors} />
+      )}
 
       <Controller
         name="cost"
