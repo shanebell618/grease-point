@@ -11,9 +11,9 @@ const meta: Meta<typeof FeaturePlaceholder> = {
 export default meta;
 type Story = StoryObj<typeof FeaturePlaceholder>;
 
-export const Inventory: Story = {
+export const Parts: Story = {
   args: {
-    title: "Parts Inventory",
+    title: "Parts",
     description:
       "Track parts on hand, reorder points, and usage across your fleet.",
     plannedFeatures: [
@@ -21,7 +21,7 @@ export const Inventory: Story = {
       "Low-stock alerts",
       "Usage history tied to maintenance records",
     ],
-    docsPath: "src/verticals/inventory/README.md",
+    docsPath: "src/verticals/parts/README.md",
   },
 };
 

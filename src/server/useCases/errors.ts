@@ -10,3 +10,12 @@ export class NotFoundError extends PublicError {
     this.name = "NotFoundError";
   }
 }
+
+export class InsufficientStockError extends PublicError {
+  constructor(partName: string, available: number, requested: number) {
+    super(
+      `Not enough ${partName} in stock: ${available} available, ${requested} requested`,
+    );
+    this.name = "InsufficientStockError";
+  }
+}

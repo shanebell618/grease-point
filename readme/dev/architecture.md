@@ -1,7 +1,7 @@
 # Architecture
 
 Equipment is the one fully-built feature and is meant as the **reference
-implementation** — the pattern every other feature (Maintenance, Inventory,
+implementation** — the pattern every other feature (Maintenance, Parts,
 Documents, Analytics — see the root [TODO.md](../../TODO.md)) should copy.
 If you're building a new feature and unsure where something goes, find the
 equivalent Equipment file and put your version in the same spot.
@@ -25,7 +25,7 @@ Everything shared across features lives in `src/common/` (UI) or
 ## Frontend: `src/verticals/`
 
 Each feature gets a folder here — `src/verticals/equipment/` is the built
-one; `maintenance/`, `inventory/`, `documents/`, `analytics/`, `auth/`
+one; `maintenance/`, `parts/`, `documents/`, `analytics/`, `auth/`
 currently just contain a `README.md` describing what to build.
 
 ```

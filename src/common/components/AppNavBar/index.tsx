@@ -19,7 +19,7 @@ const NAV_LINKS = [
   { label: "Dashboard", href: "/dashboard" },
   { label: "Equipment", href: "/equipment" },
   { label: "Maintenance", href: "/maintenance" },
-  { label: "Inventory", href: "/inventory" },
+  { label: "Parts", href: "/parts" },
   { label: "Documents", href: "/documents" },
   { label: "Analytics", href: "/analytics" },
   { label: "Settings", href: "/settings" },
