@@ -10,7 +10,7 @@ so that's the reference implementation to copy from throughout.
 ## Features (each has its own README with a suggested first slice)
 
 - [x] **Maintenance** — [`src/verticals/maintenance/README.md`](src/verticals/maintenance/README.md)
-- [ ] **Parts** — [`src/verticals/parts/README.md`](src/verticals/parts/README.md) (backend done — schema, DAOs, use cases, actions, API routes, and the maintenance-record tie-in are all built and tested; the frontend, a searchable parts table, is what's left)
+- [x] **Parts** — [`src/verticals/parts/README.md`](src/verticals/parts/README.md)
 - [ ] **Documents** — [`src/verticals/documents/README.md`](src/verticals/documents/README.md)
 - [ ] **Analytics / charts** — [`src/verticals/analytics/README.md`](src/verticals/analytics/README.md)
 - [ ] **Dashboard** — depends on Maintenance + Analytics existing first (it aggregates both); no dedicated README yet, revisit once those land.
