@@ -7,6 +7,11 @@ export const MAINTENANCE_STATUSES = [
   "COMPLETE",
 ] as const;
 
+export const partUsageInputSchema = z.object({
+  partId: z.string().trim().min(1),
+  quantityUsed: z.coerce.number().int().positive(),
+});
+
 export const createMaintenanceInputSchema = z.object({
   equipmentId: z.string().trim().min(1, "Equipment is required"),
   serviceDate: z.coerce.date(),
@@ -15,8 +20,10 @@ export const createMaintenanceInputSchema = z.object({
   cost: z.coerce.number().nonnegative().optional().nullable(),
   nextDueHours: z.coerce.number().nonnegative().optional().nullable(),
   nextDueDate: z.coerce.date().optional().nullable(),
+  partsUsed: z.array(partUsageInputSchema).optional(),
 });
 
 export type CreateMaintenanceInput = z.infer<
   typeof createMaintenanceInputSchema
 >;
+export type PartUsageInput = z.infer<typeof partUsageInputSchema>;

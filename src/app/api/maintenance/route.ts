@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
+import { InsufficientStockError } from "@/server/useCases/errors";
 import { ZodError } from "zod";
 import { createMaintenanceAction } from "@/server/actions/maintenance/createMaintenanceAction";
 import { getAllActiveOrRecentlyCompletedMaintenanceUseCase } from "@/server/useCases/maintenance/getAllActiveOrRecentlyCompletedMaintenanceUseCase";
@@ -28,6 +29,9 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     if (error instanceof ZodError) {
       return NextResponse.json({ error: error.flatten() }, { status: 400 });
+    }
+    if (error instanceof InsufficientStockError) {
+      return NextResponse.json({ error: error.message }, { status: 400 });
     }
     throw error;
   }
