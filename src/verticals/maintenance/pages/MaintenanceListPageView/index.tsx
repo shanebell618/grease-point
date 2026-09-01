@@ -8,15 +8,19 @@ export const MaintenanceListPageView = () => {
   return (
     <Container sx={{ py: 4 }}>
       <Stack
-        direction="row"
-        sx={{ justifyContent: "space-between", alignItems: "center", mb: 1 }}
+        direction={{ xs: "column", sm: "row" }}
+        sx={{
+          justifyContent: "space-between",
+          alignItems: { xs: "flex-start", sm: "center" },
+          mb: 1,
+        }}
         spacing={2}
       >
         <Typography variant="h4" component="h1">
           Maintenance
         </Typography>
         <Button href="/maintenance/new" variant="contained">
-          Add Maintenance Record
+          Add Maintenance
         </Button>
       </Stack>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>

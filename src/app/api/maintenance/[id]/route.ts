@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
+import { InsufficientStockError } from "@/server/useCases/errors";
 import { NotFoundError } from "@/server/useCases/errors";
 import { ZodError } from "zod";
 import { deleteMaintenanceAction } from "@/server/actions/maintenance/deleteMaintenanceAction";
@@ -36,6 +37,9 @@ export async function PATCH(
     }
     if (error instanceof NotFoundError) {
       return NextResponse.json({ error: "Not found" }, { status: 404 });
+    }
+    if (error instanceof InsufficientStockError) {
+      return NextResponse.json({ error: error.message }, { status: 400 });
     }
     throw error;
   }

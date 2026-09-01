@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Grease Point",
-  description: "Heavy equipment tracking: maintenance, repairs, and inventory.",
+  description: "Heavy equipment tracking: maintenance, repairs, and parts.",
 };
 
 interface RootLayoutProps {

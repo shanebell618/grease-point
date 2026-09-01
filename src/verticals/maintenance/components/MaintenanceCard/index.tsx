@@ -1,16 +1,16 @@
 "use client";
 
-import { useState } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
+import { EditMaintenanceDialog } from "@/verticals/maintenance/components/EditMaintenanceDialog";
 import Link from "@mui/material/Link";
 import type { Maintenance } from "@/verticals/maintenance/types";
-import { EditMaintenanceDialog } from "@/verticals/maintenance/components/EditMaintenanceDialog";
 import { MaintenanceStatusBadge } from "@/verticals/maintenance/components/MaintenanceStatusBadge";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { formatCurrency } from "@/common/utils/formatters/formatCurrency";
 import { formatDate } from "@/common/utils/formatters/formatDate";
+import { useState } from "react";
 
 interface MaintenanceCardProps {
   maintenance: Pick<
@@ -82,7 +82,7 @@ export const MaintenanceCard = ({
         </CardContent>
       </Card>
       <EditMaintenanceDialog
-        maintenance={maintenance}
+        maintenanceRecordId={maintenance.id}
         open={open}
         onClose={() => setOpen(false)}
       />

@@ -60,29 +60,39 @@ model MaintenanceRecord {
   cost          Float?
   nextDueHours  Float?
   nextDueDate   DateTime?
+  partUsages    PartUsage[]
   createdAt     DateTime  @default(now())
+}
+
+model Part {
+  id               String      @id @default(cuid())
+  sku              String      @unique
+  name             String
+  quantityOnHand   Int
+  reorderThreshold Int
+  unitCost         Float?
+  partUsages       PartUsage[]
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+}
+
+model PartUsage {
+  id                  String            @id @default(cuid())
+  partId              String
+  part                Part              @relation(fields: [partId], references: [id])
+  maintenanceRecordId String
+  // Cascade here is just an orphan-prevention safety net for direct
+  // deletes — the actual inventory-restoring logic lives in
+  // deleteMaintenanceUseCase, not in this cascade.
+  maintenanceRecord   MaintenanceRecord @relation(fields: [maintenanceRecordId], references: [id], onDelete: Cascade)
+  quantityUsed        Int
+  createdAt           DateTime          @default(now())
 }
 
 // --- Breadcrumbs: future models, sketched but not implemented yet. -------
 // See TODO.md for the fuller narrative on when/how to build these out.
 //
-// model Part {
-//   id                String @id @default(cuid())
-//   sku               String @unique
-//   name              String
-//   quantityOnHand    Int
-//   reorderThreshold  Int
-//   unitCost          Float?
-// }
-//
-// model PartUsage {
-//   id                  String   @id @default(cuid())
-//   partId              String
-//   equipmentId         String
-//   maintenanceRecordId String?
-//   quantityUsed        Int
-//   usedAt              DateTime
-// }
+
 //
 // model Document {
 //   id          String   @id @default(cuid())
