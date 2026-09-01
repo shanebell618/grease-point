@@ -1,8 +1,9 @@
-# Parts — breadcrumb
+# Parts
 
-Backend done — schema, DAOs, use cases, actions, and API routes are all
-built and tested. The frontend (a searchable parts table, plus the
-parts-used section on the maintenance form) is what's left.
+Fully built: schema, DAOs, use cases, actions, and API routes on the
+backend; a searchable parts list with add/edit/delete dialogs on the
+frontend; and the parts-used section on `MaintenanceForm` tying the two
+together.
 
 ## Data model
 
@@ -32,22 +33,22 @@ and the maintenance-record write always succeed or fail together.
   `src/server/actions/parts/` (mutations only — reads call the use case
   directly), each with a co-located `__test__/`.
 - `src/app/api/parts/route.ts` and `[id]/route.ts`.
-
-## What's left — suggested first slice
-
-Same shape as Equipment/Maintenance's frontend — see
-[`readme/dev/architecture.md`](../../../readme/dev/architecture.md) for the
-full layering explanation:
-
-- `src/verticals/parts/{types,api,queryKeys,hooks}.ts`.
-- `src/verticals/parts/pages/PartsListPageView/index.tsx` — a searchable
-  `DataGridTable` (same component the equipment-detail history table
-  uses), replacing the `FeaturePlaceholder` stub `src/app/parts/page.tsx`
-  currently renders.
-- A parts-used section on `MaintenanceForm`, shown only when status is
-  `COMPLETE`: a searchable part picker + quantity, with an "add another
-  part" control for more than one. Submits as the `partsUsed` array
-  `createMaintenanceInputSchema` already accepts.
+- Frontend: `src/verticals/parts/{types,api,queryKeys,hooks}.ts`, the
+  shared `components/PartForm/`, and
+  `pages/PartsListPageView/` — a searchable `DataGridTable` with
+  add/edit/delete dialogs (`AddPartDialog`, `EditPartDialog`,
+  `DeletePartButton`), rendered by `src/app/parts/page.tsx`.
+- The parts-used section on `MaintenanceForm`
+  (`src/verticals/maintenance/components/MaintenanceForm/components/PartsUsedFields/`) —
+  shown only when status is `COMPLETE`, a searchable part `Autocomplete` +
+  quantity per row via `useFieldArray`, with an "Add part" control for
+  more than one. Submits as the `partsUsed` array
+  `createMaintenanceInputSchema` already accepts, and
+  `getMaintenanceByIdUseCase` reads it back out so the edit dialog can
+  pre-fill what's already recorded on a job.
+- `prisma/seeds/sampleParts.ts` — sample stock, including a few parts at
+  or below their `reorderThreshold` so the "Low stock" indicator has
+  something real to show.
 
 ## Later
 

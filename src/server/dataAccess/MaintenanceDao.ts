@@ -28,7 +28,10 @@ export class MaintenanceDao {
   }
 
   static async getById(id: string) {
-    return getPrisma().maintenanceRecord.findUnique({ where: { id } });
+    return getPrisma().maintenanceRecord.findUnique({
+      where: { id },
+      include: { partUsages: true },
+    });
   }
 
   static async create(data: Prisma.MaintenanceRecordUncheckedCreateInput) {
