@@ -81,11 +81,21 @@ export const MaintenanceCard = ({
           )}
         </CardContent>
       </Card>
-      <EditMaintenanceDialog
-        maintenanceRecordId={maintenance.id}
-        open={open}
-        onClose={() => setOpen(false)}
-      />
+      {/* Mounted only while actually open, not kept alive with `open`
+          toggling — see EditMaintenanceDialog for why: a dialog that
+          stays mounted through its own close transition can get stuck
+          mid-exit (invisible but still blocking every click) if the
+          page re-renders it for an unrelated reason at the same
+          moment, which a save here always does (it invalidates the
+          whole maintenance list). Unmounting on close sidesteps the
+          whole class of bug instead of trying to outrun it. */}
+      {open && (
+        <EditMaintenanceDialog
+          maintenanceRecordId={maintenance.id}
+          open
+          onClose={() => setOpen(false)}
+        />
+      )}
     </>
   );
 };

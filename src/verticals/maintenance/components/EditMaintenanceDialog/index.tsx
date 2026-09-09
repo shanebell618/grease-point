@@ -22,6 +22,16 @@ interface EditMaintenanceDialogProps {
   onClose: () => void;
 }
 
+// Callers should mount this only while it's actually needed (e.g.
+// `{selectedId && <EditMaintenanceDialog ... />}`), not keep it always
+// mounted with `open` toggling true/false. A dialog kept alive through
+// its own close transition can get stuck mid-exit — invisible but
+// still covering the screen and blocking every click — if the page
+// re-renders it for an unrelated reason at the same moment (saving
+// here always triggers one: it invalidates the whole maintenance
+// list). Unmounting on close avoids that class of bug outright; see
+// MaintenanceCard for a caller that used to keep this always-mounted
+// and hit exactly that.
 export const EditMaintenanceDialog = ({
   maintenanceRecordId,
   open,
